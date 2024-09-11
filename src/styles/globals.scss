@@ -48,7 +48,7 @@
 
 body {
 	color: var(--foreground-rgb);
-	background: var(--background-start-rgb);
+	background-color: var(--primaryColor) !important;
 }
 
 p {

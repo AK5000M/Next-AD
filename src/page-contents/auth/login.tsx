@@ -7,7 +7,6 @@ import { useAppDispatch } from "@/store";
 import { login } from "@/store/actions/authActions";
 
 import Layout from "@/layout/layout";
-import theme from "@/styles/theme";
 
 export const LoginContent: React.FC = () => {
 	const { t } = useTranslation();
