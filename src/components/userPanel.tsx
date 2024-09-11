@@ -338,7 +338,7 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 							}}
 							onClick={() => UpdateExtraDevice(user?._id)}
 						>
-							Update Device Count
+							Dispositivos extras
 						</Button>
 						<Button
 							variant="contained"
@@ -378,7 +378,9 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 								},
 							}}
 							disabled={user.status == "blocked" ? true : false}
-							// onClick={onBlock}
+							onClick={() =>
+								onUpdateUserStatus(user?._id, "blocked")
+							}
 						>
 							Bloqueie esse usuário
 						</Button>

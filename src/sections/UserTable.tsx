@@ -113,7 +113,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
 								}
 								sx={{
 									color: "var(--mainTextColor)",
-									borderColor: "var(--borderColor)",
+									border: "none",
 									textAlign: "center",
 								}}
 							>

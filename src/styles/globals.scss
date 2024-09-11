@@ -55,6 +55,10 @@ p {
 	color: var(--secondaryTextColor);
 }
 
+button {
+	border-radius: 50px !important;
+}
+
 @layer utilities {
 	.text-balance {
 		text-wrap: balance;
