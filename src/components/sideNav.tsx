@@ -1,4 +1,3 @@
-// src/components/SideNav.tsx
 import React from "react";
 import {
 	Box,
@@ -15,6 +14,7 @@ import {
 	People as PeopleIcon,
 } from "@mui/icons-material";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 import { DashboardURL, UserManagementURL } from "@/utils/routes";
 
@@ -58,10 +58,11 @@ const SideNav: React.FC = () => {
 					p: 2,
 				}}
 			>
-				<img
+				<Image
 					src="/assets/logos/ghostspy-logo-_2_.webp"
 					alt="Logo"
-					style={{ width: "160px" }}
+					width={160}
+					height={80}
 				/>
 			</Grid>
 			<Box sx={{ overflow: "auto" }}>

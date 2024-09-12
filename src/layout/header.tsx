@@ -2,6 +2,7 @@ import React from "react";
 import { AppBar, Toolbar, IconButton, Button, Grid } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
+import Image from "next/image"; // Import Image component from Next.js
 
 import { SignInURL } from "@/utils/routes";
 
@@ -26,10 +27,12 @@ const Header: React.FC = () => {
 					aria-label="menu"
 					onClick={onClickLogo}
 				>
-					<img
+					<Image
 						src="/assets/logos/ghostspy-logo-_2_.webp"
 						alt="Logo"
-						style={{ width: "180px" }}
+						width={180}
+						height={50}
+						priority
 					/>
 				</IconButton>
 				<Button

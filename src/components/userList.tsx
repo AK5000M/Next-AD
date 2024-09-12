@@ -65,6 +65,7 @@ const UserList: React.FC = () => {
 		{ field: "_id", label: "ID" },
 		{ field: "username", label: "Nome completo" },
 		{ field: "email", label: "Email" },
+		{ field: "ip", label: "IP" },
 		{ field: "role", label: "Função" },
 		{ field: "devices", label: "Dispositivos" },
 		{ field: "status", label: "Estado" },

@@ -2,6 +2,7 @@ import {
 	fetchUsersList,
 	getUserInfo,
 	updateUserStatus,
+	updateIP,
 } from "@/store/apis/user";
 
 export const fetchUsers = async () => {
@@ -25,6 +26,15 @@ export const getUserInformation = async (id: string) => {
 export const updateUser = async (userId: string, type: string) => {
 	try {
 		const data = await updateUserStatus(userId, type);
+		return data;
+	} catch (error) {
+		console.error("Allow user failed", error);
+	}
+};
+
+export const updateUserIP = async (userId: string, ip: string) => {
+	try {
+		const data = await updateIP(userId, ip);
 		return data;
 	} catch (error) {
 		console.error("Allow user failed", error);

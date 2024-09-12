@@ -1,12 +1,24 @@
 // UserPanel.tsx
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { toast, ToastContainer } from "react-toastify";
 
-import { Box, CircularProgress, Typography, Grid, Button } from "@mui/material";
+import {
+	Box,
+	CircularProgress,
+	Typography,
+	Grid,
+	Button,
+	TextField,
+	IconButton,
+} from "@mui/material";
 
-import { updateUser } from "@/store/actions/userActions";
+import EditIcon from "@mui/icons-material/Edit";
+import SaveIcon from "@mui/icons-material/Save";
+import CloseIcon from "@mui/icons-material/Close";
+
+import { updateUser, updateUserIP } from "@/store/actions/userActions";
 
 import { UserManagementURL } from "@/utils/routes";
 
@@ -43,25 +55,110 @@ const getStatusStyles = (status: string) => {
 
 const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 	const router = useRouter();
+
+	const [ip, setIp] = useState("");
+	const [isEditing, setIsEditing] = useState(false);
+
+	useEffect(() => {
+		setIp(user?.ip);
+	}, [user]);
+
+	const handleEditClick = () => {
+		setIsEditing(true);
+	};
+
+	const handleCloseClick = () => {
+		setIsEditing(false);
+	};
+
+	// Update User IP
+	const handleSaveClick = async (userId: string) => {
+		try {
+			setIsEditing(false);
+			if (ip !== user?.ip) {
+				const response = await updateUserIP(userId, ip as string);
+
+				if (response.success) {
+					toast.success(
+						"O IP do usuário foi atualizado com sucesso.",
+						{
+							position: "bottom-right",
+							className: "custom-toast",
+							style: {
+								backgroundColor: "var(--secondaryGreenColor)",
+								color: "white",
+							},
+							onClose: () => {
+								router.push(UserManagementURL);
+							},
+						}
+					);
+				} else {
+					toast.error("Falha na atualização do IP do usuário.", {
+						position: "bottom-right",
+						style: {
+							backgroundColor: "var(--secondaryRedColor)",
+							color: "white",
+						},
+					});
+				}
+			} else {
+				setIsEditing(true);
+			}
+		} catch (error) {
+			toast.error("Erro do Servidor Interno", {
+				position: "bottom-right",
+				style: {
+					backgroundColor: "var(--secondaryRedColor)",
+					color: "white",
+				},
+			});
+		}
+	};
+
+	const handleIpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		let value = e.target.value;
+
+		// Restrict input to numbers and periods
+		value = value.replace(/[^0-9.]/g, "");
+
+		// Prevent more than three dots
+		if (value.split(".").length - 1 > 3) return;
+
+		// Automatically apply IP formatting
+		const segments = value.split(".").map((segment) => {
+			// Restrict each segment to 3 digits
+			return segment.substring(0, 3);
+		});
+
+		// Join the segments back with dots
+		const formattedValue = segments.join(".");
+
+		setIp(formattedValue);
+	};
+
 	// Update User Status
 	const onUpdateUserStatus = async (userId: string, type: string) => {
 		try {
 			const response = await updateUser(userId as string, type as string);
 
 			if (response.success) {
-				toast.success(response.message, {
-					position: "bottom-right",
-					className: "custom-toast",
-					style: {
-						backgroundColor: "var(--secondaryGreenColor)",
-						color: "white",
-					},
-					onClose: () => {
-						router.push(UserManagementURL);
-					},
-				});
+				toast.success(
+					"O status do usuário foi atualizado com sucesso.",
+					{
+						position: "bottom-right",
+						className: "custom-toast",
+						style: {
+							backgroundColor: "var(--secondaryGreenColor)",
+							color: "white",
+						},
+						onClose: () => {
+							router.push(UserManagementURL);
+						},
+					}
+				);
 			} else {
-				toast.error("Failed to update user status", {
+				toast.error("Falha ao atualizar o status do usuário", {
 					position: "bottom-right",
 					style: {
 						backgroundColor: "var(--secondaryRedColor)",
@@ -70,7 +167,7 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 				});
 			}
 		} catch (error) {
-			toast.error("Failed to update user status", {
+			toast.error("Erro do Servidor Interno", {
 				position: "bottom-right",
 				style: {
 					backgroundColor: "var(--secondaryRedColor)",
@@ -166,6 +263,92 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 								{user?.email}
 							</span>
 						</Typography>
+					</Grid>
+					<Grid item xs={12} sm={4}>
+						<Box
+							sx={{
+								display: "flex",
+								alignItems: "center",
+								gap: "5px",
+							}}
+						>
+							<Typography
+								variant="subtitle1"
+								sx={{
+									color: "var(--iconColor)",
+									fontSize: "14px",
+								}}
+							>
+								Login IP:{" "}
+							</Typography>
+							{isEditing ? (
+								<TextField
+									value={ip}
+									onChange={handleIpChange}
+									variant="outlined"
+									size="small"
+									sx={{
+										width: "150px",
+										fontSize: "14px",
+										color: "var(--mainTextColor)",
+									}}
+									InputProps={{
+										sx: {
+											color: "var(--mainTextColor)",
+										},
+									}}
+								/>
+							) : (
+								<span
+									style={{
+										fontSize: "16px",
+										color: "var(--mainTextColor)",
+									}}
+								>
+									{ip}
+								</span>
+							)}
+							{isEditing ? (
+								<Box sx={{ display: "flex", gap: "1px" }}>
+									<IconButton
+										size="small"
+										onClick={() =>
+											handleSaveClick(user?._id)
+										}
+									>
+										<SaveIcon
+											sx={{
+												fontSize: "22px",
+												color: " var(--greenColor)",
+											}}
+										/>
+									</IconButton>
+									<IconButton
+										size="small"
+										onClick={handleCloseClick}
+									>
+										<CloseIcon
+											sx={{
+												fontSize: "22px",
+												color: " var(--redColor)",
+											}}
+										/>
+									</IconButton>
+								</Box>
+							) : (
+								<IconButton
+									size="small"
+									onClick={handleEditClick}
+								>
+									<EditIcon
+										sx={{
+											fontSize: "22px",
+											color: " var(--greenColor)",
+										}}
+									/>
+								</IconButton>
+							)}
+						</Box>
 					</Grid>
 					<Grid item xs={12} sm={4}>
 						<Typography
