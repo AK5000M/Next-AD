@@ -410,7 +410,7 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 						</Typography>
 					</Grid>
 
-					<Grid item xs={12} sm={4}>
+					<Grid item xs={12}>
 						<Typography
 							variant="subtitle1"
 							sx={{
