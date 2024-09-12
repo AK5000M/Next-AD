@@ -73,6 +73,15 @@ const UserList: React.FC = () => {
 
 	return (
 		<Box sx={{ mt: 4 }}>
+			<Typography
+				variant="subtitle1"
+				sx={{
+					color: "var(--iconColor)",
+					fontSize: "14px",
+				}}
+			>
+				Total de usuários: {users.length}
+			</Typography>
 			<TableComponent
 				columns={columns}
 				data={users}
