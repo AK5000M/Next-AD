@@ -7,7 +7,7 @@ export const loginApi = async (
 	password: string,
 	role: string
 ) => {
-	const response = await axios.post(`${API_BASE_URL}/auth/login`, {
+	const response = await axios.post(`${API_BASE_URL}/auth/admin/login`, {
 		email,
 		password,
 		role,
