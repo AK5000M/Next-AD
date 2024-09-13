@@ -54,8 +54,6 @@ const UserEditContent: React.FC = () => {
 		}
 	};
 
-	console.log(devices, userInfo);
-
 	return (
 		<SecondaryLayout>
 			<Container maxWidth="xl">

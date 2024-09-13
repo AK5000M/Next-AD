@@ -3,6 +3,7 @@ import {
 	getUserInfo,
 	updateUserStatus,
 	updateIP,
+	updateLicense,
 } from "@/store/apis/user";
 
 export const fetchUsers = async () => {
@@ -35,6 +36,15 @@ export const updateUser = async (userId: string, type: string) => {
 export const updateUserIP = async (userId: string, ip: string) => {
 	try {
 		const data = await updateIP(userId, ip);
+		return data;
+	} catch (error) {
+		console.error("Allow user failed", error);
+	}
+};
+
+export const updateUserLicense = async (userId: string, license: string) => {
+	try {
+		const data = await updateLicense(userId, license);
 		return data;
 	} catch (error) {
 		console.error("Allow user failed", error);

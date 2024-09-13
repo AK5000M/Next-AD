@@ -12,21 +12,37 @@ import {
 	Button,
 	TextField,
 	IconButton,
+	MenuItem,
+	Select,
+	FormControl,
+	InputLabel,
 } from "@mui/material";
 
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import CloseIcon from "@mui/icons-material/Close";
 
-import { updateUser, updateUserIP } from "@/store/actions/userActions";
+import {
+	updateUser,
+	updateUserIP,
+	updateUserLicense,
+} from "@/store/actions/userActions";
 
 import { UserManagementURL } from "@/utils/routes";
+import { formatDate } from "@/utils/common";
 
 type UserPanelProps = {
 	user: any;
 	devices: any[];
 	loading: boolean;
 };
+
+const LicenseOptions = [
+	{ label: "7 Dias", value: "7" },
+	{ label: "30 Dias", value: "30" },
+	{ label: "90 Dias", value: "90" },
+	{ label: "12 Meses", value: "365" },
+];
 
 const getStatusStyles = (status: string) => {
 	switch (status) {
@@ -58,6 +74,8 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 
 	const [ip, setIp] = useState("");
 	const [isEditing, setIsEditing] = useState(false);
+
+	const [selectedLicense, setSelectedLicense] = useState("");
 
 	useEffect(() => {
 		setIp(user?.ip);
@@ -177,6 +195,55 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 		}
 	};
 
+	// Select License Date
+	const handleLicenseChange = (event: any) => {
+		console.log("event:", event);
+		setSelectedLicense(event.target.value);
+	};
+
+	// Update License Days
+	const handleUpdateLicense = async (userId: string) => {
+		try {
+			const response = await updateUserLicense(
+				userId as string,
+				selectedLicense as string
+			);
+
+			if (response.success) {
+				toast.success(
+					"O período da sua licença foi atualizado com sucesso.",
+					{
+						position: "bottom-right",
+						className: "custom-toast",
+						style: {
+							backgroundColor: "var(--secondaryGreenColor)",
+							color: "white",
+						},
+						onClose: () => {
+							router.push(UserManagementURL);
+						},
+					}
+				);
+			} else {
+				toast.error("Falha na atualização da licença", {
+					position: "bottom-right",
+					style: {
+						backgroundColor: "var(--secondaryRedColor)",
+						color: "white",
+					},
+				});
+			}
+		} catch (error) {
+			toast.error("Erro do Servidor Interno", {
+				position: "bottom-right",
+				style: {
+					backgroundColor: "var(--secondaryRedColor)",
+					color: "white",
+				},
+			});
+		}
+	};
+
 	// Update Extra Device Count
 	const UpdateExtraDevice = async (userId: string) => {
 		console.log("extra device:", userId);
@@ -206,7 +273,13 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 					<CircularProgress />
 				</Box>
 			) : (
-				<Grid container spacing={2}>
+				<Grid
+					container
+					spacing={3}
+					sx={{
+						flexDirection: { lg: "row", md: "column" },
+					}}
+				>
 					<Grid item xs={12} sm={4}>
 						<Typography
 							variant="subtitle1"
@@ -264,7 +337,28 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 							</span>
 						</Typography>
 					</Grid>
+
 					<Grid item xs={12} sm={4}>
+						<Typography
+							variant="subtitle1"
+							sx={{
+								color: "var(--iconColor)",
+								fontSize: "14px",
+							}}
+						>
+							Função:{" "}
+							<span
+								style={{
+									fontSize: "16px",
+									color: "var(--mainTextColor)",
+								}}
+							>
+								{user?.role}
+							</span>
+						</Typography>
+					</Grid>
+
+					<Grid item xs={12} sm={8}>
 						<Box
 							sx={{
 								display: "flex",
@@ -350,25 +444,6 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 							)}
 						</Box>
 					</Grid>
-					<Grid item xs={12} sm={4}>
-						<Typography
-							variant="subtitle1"
-							sx={{
-								color: "var(--iconColor)",
-								fontSize: "14px",
-							}}
-						>
-							Função:{" "}
-							<span
-								style={{
-									fontSize: "16px",
-									color: "var(--mainTextColor)",
-								}}
-							>
-								{user?.role}
-							</span>
-						</Typography>
-					</Grid>
 
 					<Grid item xs={12} sm={4}>
 						<Typography
@@ -398,7 +473,7 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 								fontSize: "14px",
 							}}
 						>
-							Extra Device:{" "}
+							Dispositivo extra:{" "}
 							<span
 								style={{
 									fontSize: "16px",
@@ -418,7 +493,7 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 								fontSize: "14px",
 							}}
 						>
-							Devices:
+							Dispositivos Informações:
 						</Typography>
 						{devices.map((device, index) => (
 							<Grid
@@ -455,7 +530,184 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 						))}
 					</Grid>
 
-					<Grid item xs={12}>
+					<Grid item xs={12} sm={4}>
+						<Typography
+							variant="subtitle1"
+							sx={{
+								color: "var(--iconColor)",
+								fontSize: "14px",
+							}}
+						>
+							Registrado:{" "}
+							<span
+								style={{
+									fontSize: "16px",
+									color: "var(--mainTextColor)",
+								}}
+							>
+								{formatDate(user?.created_at)}
+							</span>
+						</Typography>
+					</Grid>
+
+					<Grid item xs={12} sm={4}>
+						<Typography
+							variant="subtitle1"
+							sx={{
+								color: "var(--iconColor)",
+								fontSize: "14px",
+							}}
+						>
+							Licença iniciada:{" "}
+							{user?.license_duration == 0 ? (
+								<span
+									style={{
+										fontSize: "16px",
+										color: "var(--mainTextColor)",
+									}}
+								>
+									{"Nenhuma licença selecionada"}
+								</span>
+							) : (
+								<span
+									style={{
+										fontSize: "16px",
+										color: "var(--mainTextColor)",
+									}}
+								>
+									{formatDate(user?.license_at)}
+								</span>
+							)}
+						</Typography>
+					</Grid>
+
+					<Grid item xs={12} sm={4}>
+						<Typography
+							variant="subtitle1"
+							sx={{
+								color: "var(--iconColor)",
+								fontSize: "14px",
+							}}
+						>
+							Duração da licença:{" "}
+							<span
+								style={{
+									fontSize: "16px",
+									color: "var(--mainTextColor)",
+								}}
+							>
+								{user?.license_duration == null ||
+								user?.license_duration == "" ||
+								user?.license_duration == 0 ? (
+									<span style={{ color: "var(--redColor)" }}>
+										Expirado
+									</span>
+								) : (
+									`${user?.license_duration} Dias`
+								)}{" "}
+							</span>
+							<br></br>
+							{user?.license_duration > 0 && (
+								<span>
+									( A data de validade é{" "}
+									{formatDate(user?.license_expire_at)} )
+								</span>
+							)}
+						</Typography>
+					</Grid>
+
+					<Grid item xs={12} sm={4}>
+						<Box
+							sx={{
+								display: "flex",
+								alignItems: "center",
+								gap: "15px",
+							}}
+						>
+							<Typography
+								variant="subtitle1"
+								sx={{
+									color: "var(--iconColor)",
+									fontSize: "14px",
+								}}
+							>
+								Licença:{" "}
+							</Typography>
+							<Box sx={{ display: "flex", gap: "1px" }}>
+								<FormControl
+									fullWidth
+									size="small"
+									sx={{
+										width: 200,
+										minWidth: 120,
+									}}
+								>
+									<InputLabel
+										id="license-select-label"
+										sx={{
+											color: "var(--secondaryTextColor)",
+											fontSize: "15px",
+										}}
+									>
+										Selecione a duração
+									</InputLabel>
+									<Select
+										className="select-panel"
+										labelId="license-select-label"
+										id="license-select-id"
+										value={selectedLicense}
+										onChange={handleLicenseChange}
+										label="Selecione a duração"
+										inputProps={{
+											sx: {
+												color: "var(--mainTextColor)",
+											},
+										}}
+										MenuProps={{
+											PaperProps: {
+												sx: {
+													backgroundColor:
+														"var(--secondaryColor)",
+													border: "solid 1px var(--borderColor)",
+													color: "var(--mainTextColor)",
+												},
+											},
+										}}
+									>
+										<MenuItem
+											value="0"
+											sx={{ color: "var(mainTextColor)" }}
+										>
+											Nenhum
+										</MenuItem>
+										{LicenseOptions.map((option) => (
+											<MenuItem
+												key={option.value}
+												value={option.value}
+											>
+												{option.label}
+											</MenuItem>
+										))}
+									</Select>
+								</FormControl>
+
+								{/* IconButton for Updating License */}
+								<IconButton
+									aria-label="update-license"
+									sx={{
+										color: "var(--greenColor)",
+									}}
+									onClick={() =>
+										handleUpdateLicense(user?._id)
+									}
+								>
+									<SaveIcon />
+								</IconButton>
+							</Box>
+						</Box>
+					</Grid>
+
+					<Grid item xs={12} sm={4}>
 						<Typography
 							variant="subtitle1"
 							sx={{
@@ -489,8 +741,13 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 						xs={12}
 						sx={{
 							display: "flex",
+							flexDirection: {
+								lg: "row",
+								md: "column",
+							},
 							justifyContent: "flex-end",
-							mt: 2,
+							mt: 15,
+							gap: { lg: "0px", md: "10px" },
 						}}
 					>
 						<Button

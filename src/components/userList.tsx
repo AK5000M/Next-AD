@@ -68,6 +68,7 @@ const UserList: React.FC = () => {
 		{ field: "ip", label: "IP" },
 		{ field: "role", label: "Função" },
 		{ field: "devices", label: "Dispositivos" },
+		{ field: "license_duration", label: "Duração da licença(Dias)" },
 		{ field: "status", label: "Estado" },
 	];
 
