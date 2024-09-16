@@ -1,4 +1,5 @@
 export interface UserModelType extends Document {
+	data: any;
 	_id?: string;
 	id: string;
 	firstname?: string;

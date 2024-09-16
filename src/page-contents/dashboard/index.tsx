@@ -1,17 +1,19 @@
+// pages/DashboardContent.tsx
 import React, { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
-
-import { Container, Box, Typography, TextField, Button } from "@mui/material";
-import { useTranslation } from "react-i18next";
-import { useRouter } from "next/router";
-import SecondaryLayout from "@/layout//secondaryLayout";
+import { Container, Box, Typography } from "@mui/material";
+import SecondaryLayout from "@/layout/secondaryLayout";
 import { fetchUsers } from "@/store/actions/userActions";
 import { fetchDevices } from "@/store/actions/devicesActions";
+import { StatsCards } from "./statusCards";
 import { UserModelType } from "@/types/index";
 
 const DashboardContent: React.FC = () => {
-	const [users, setUsers] = useState<UserModelType[]>([]);
-	console.log({ users });
+	const [totalDevices, setTotalDevices] = useState<string>("0");
+	const [totalUsers, setTotalUsers] = useState<string>("0");
+	const [allowedUsers, setAllowedUsers] = useState<string>("0");
+	const [pendingUsers, setPendingUsers] = useState<string>("0");
+	const [blockedUsers, setBlockedUsers] = useState<string>("0");
 
 	useEffect(() => {
 		fetchUserList();
@@ -21,56 +23,65 @@ const DashboardContent: React.FC = () => {
 	const fetchUserList = async () => {
 		try {
 			const response = await fetchUsers();
-			if (response.success) {
-				setUsers(response.data);
-			} else {
-				toast.error("Failed to fetch users", {
-					position: "bottom-right",
-					style: {
-						backgroundColor: "var(--secondaryRedColor)",
-						color: "white",
-					},
-				});
-			}
+			calculateUserStats(response);
 		} catch (error) {
-			toast.error("Failed to fetch users", {
-				position: "bottom-right",
-				style: {
-					backgroundColor: "var(--secondaryRedColor)",
-					color: "white",
-				},
-			});
+			console.log(error);
 		}
 	};
 
 	const fetchTotalDevices = async () => {
 		try {
 			const response = await fetchDevices();
-			console.log({ response });
+			setTotalDevices(response?.length);
 		} catch (error) {
-			toast.error("Failed to fetch devices", {
-				position: "bottom-right",
-				style: {
-					backgroundColor: "var(--secondaryRedColor)",
-					color: "white",
-				},
-			});
+			console.log(error);
 		}
+	};
+
+	const calculateUserStats = (userList: any) => {
+		const users = userList.data;
+
+		const total = users.length;
+		const allowed = users.filter(
+			(user: { status: string }) => user.status === "allowed"
+		).length;
+		const blocked = users.filter(
+			(user: { status: string }) => user.status === "blocked"
+		).length;
+		const pending = users.filter(
+			(user: { status: string }) => user.status === "pending"
+		).length;
+
+		setTotalUsers(total.toString());
+		setAllowedUsers(allowed.toString());
+		setBlockedUsers(blocked.toString());
+		setPendingUsers(pending.toString());
 	};
 
 	return (
 		<SecondaryLayout>
 			<Container maxWidth="xl">
-				<Box sx={{ mt: 1 }}>
+				<Box sx={{ mt: 3 }}>
 					<Typography
 						variant="h4"
 						gutterBottom
-						sx={{ textAlign: "start", color: "white" }}
+						sx={{ color: "white" }}
 					>
-						This is Dashboard
+						Painel
 					</Typography>
+
+					{/* Stats Cards */}
+					<StatsCards
+						totalUsers={totalUsers}
+						allowedUsers={allowedUsers}
+						pendingUsers={pendingUsers}
+						blockedUsers={blockedUsers}
+						totalDevices={totalDevices}
+					/>
 				</Box>
 			</Container>
+
+			<ToastContainer />
 		</SecondaryLayout>
 	);
 };
