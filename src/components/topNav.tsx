@@ -1,29 +1,26 @@
-// src/components/TopNav.tsx
 import React, { useState } from "react";
 import {
 	AppBar,
 	Toolbar,
 	IconButton,
-	Typography,
-	Avatar,
 	Badge,
 	Box,
 	Popover,
 	List,
 	ListItem,
-	ListItemAvatar,
-	ListItemText as MuiListItemText,
-	Divider,
-	Grid,
+	Typography,
+	Dialog,
+	DialogTitle,
+	DialogActions,
+	DialogContent,
+	Button,
 } from "@mui/material";
 import {
-	Menu as MenuIcon,
 	Notifications as NotificationsIcon,
 	Chat as ChatIcon,
 	Logout as LogoutIcon,
 } from "@mui/icons-material";
 import { useRouter } from "next/router";
-
 import { useAppDispatch } from "@/store";
 import { logoutUser } from "@/store/actions/authActions";
 
@@ -33,6 +30,13 @@ const TopNav: React.FC = () => {
 
 	const [notificationsAnchorEl, setNotificationsAnchorEl] =
 		useState<HTMLButtonElement | null>(null);
+	const [chatAnchorEl, setChatAnchorEl] = useState<HTMLButtonElement | null>(
+		null
+	);
+
+	const [openLogoutDialog, setOpenLogoutDialog] = useState(false);
+
+	// Notification handlers
 	const handleNotificationsClick = (
 		event: React.MouseEvent<HTMLButtonElement>
 	) => {
@@ -46,9 +50,7 @@ const TopNav: React.FC = () => {
 		? "notifications-popover"
 		: undefined;
 
-	const [chatAnchorEl, setChatAnchorEl] = useState<HTMLButtonElement | null>(
-		null
-	);
+	// Chat handlers
 	const handleChatClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		setChatAnchorEl(event.currentTarget);
 	};
@@ -58,10 +60,19 @@ const TopNav: React.FC = () => {
 	const openChat = Boolean(chatAnchorEl);
 	const chatId = openChat ? "chat-popover" : undefined;
 
-	const handleLogout = (event: React.FormEvent) => {
-		event.preventDefault();
+	// Logout confirmation dialog handlers
+	const handleLogoutClick = () => {
+		setOpenLogoutDialog(true);
+	};
+
+	const handleLogoutConfirm = () => {
+		setOpenLogoutDialog(false);
 		dispatch(logoutUser());
 		console.log("Logout clicked");
+	};
+
+	const handleLogoutCancel = () => {
+		setOpenLogoutDialog(false);
 	};
 
 	return (
@@ -73,8 +84,7 @@ const TopNav: React.FC = () => {
 			}}
 		>
 			<Toolbar>
-				<Box sx={{ flexGrow: 1 }} />{" "}
-				{/* Spacing to push icons to the right */}
+				<Box sx={{ flexGrow: 1 }} />
 				<Box sx={{ display: "flex", alignItems: "center" }}>
 					<IconButton
 						color="inherit"
@@ -122,9 +132,10 @@ const TopNav: React.FC = () => {
 									disablePadding
 									sx={{ color: "var(--iconColor)" }}
 								>
-									<MuiListItemText primary="You have a new notification!" />
+									<Typography>
+										You have a new notification!
+									</Typography>
 								</ListItem>
-								{/* Add more notifications as needed */}
 							</List>
 						</Box>
 					</Popover>
@@ -168,26 +179,66 @@ const TopNav: React.FC = () => {
 								Chat
 							</Typography>
 							<List>
-								<List>
-									<ListItem
-										disablePadding
-										sx={{ color: "var(--iconColor)" }}
-									>
-										<MuiListItemText primary="You have a new message!" />
-									</ListItem>
-									{/* Add more notifications as needed */}
-								</List>
-								{/* Add more chat messages as needed */}
+								<ListItem
+									disablePadding
+									sx={{ color: "var(--iconColor)" }}
+								>
+									<Typography>
+										You have a new message!
+									</Typography>
+								</ListItem>
 							</List>
 						</Box>
 					</Popover>
+
+					{/* Logout button with confirmation */}
 					<IconButton
 						color="inherit"
-						onClick={handleLogout}
+						onClick={handleLogoutClick}
 						sx={{ mr: 2 }}
 					>
 						<LogoutIcon sx={{ color: "var(--iconColor)" }} />
 					</IconButton>
+
+					{/* Confirmation Dialog for Logout */}
+					<Dialog
+						open={openLogoutDialog}
+						onClose={handleLogoutCancel}
+						aria-labelledby="logout-dialog-title"
+						sx={{
+							"& .MuiPaper-root": {
+								backgroundColor: "var(--primaryColor)",
+								border: "solid 1px var(--borderColor)",
+							},
+						}}
+					>
+						<DialogTitle
+							id="logout-dialog-title"
+							sx={{ color: "var(--mainTextColor)" }}
+						>
+							Confirmar Sair
+						</DialogTitle>
+						<DialogContent>
+							<Typography sx={{ color: "var(--iconColor)" }}>
+								Tem certeza de que deseja sair?
+							</Typography>
+						</DialogContent>
+						<DialogActions>
+							<Button
+								onClick={handleLogoutCancel}
+								sx={{ color: "var(--mainTextColor)", px: 2 }}
+							>
+								Cancelar
+							</Button>
+							<Button
+								onClick={handleLogoutConfirm}
+								sx={{ color: "var(--mainTextColor)", px: 2 }}
+								autoFocus
+							>
+								Sair
+							</Button>
+						</DialogActions>
+					</Dialog>
 				</Box>
 			</Toolbar>
 		</AppBar>
