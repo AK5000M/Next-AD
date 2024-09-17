@@ -9,11 +9,12 @@ import SecondaryLayout from "@/layout/secondaryLayout";
 import { getDeviceInformation } from "@/store/actions/devicesActions";
 
 import { DeviceModelType } from "@/types/index";
+import DevicePanel from "@/components/devicePanel";
 
 const DeviceManageContent: React.FC = () => {
 	const router = useRouter();
 
-	const [devices, setDevices] = useState<any>([]);
+	const [device, setDevice] = useState<any>([]);
 
 	useEffect(() => {
 		const device_Id = router?.query?.id;
@@ -26,7 +27,7 @@ const DeviceManageContent: React.FC = () => {
 		try {
 			const response = await getDeviceInformation(device_Id as string);
 
-			setDevices(response[0]);
+			setDevice(response[0]);
 		} catch (error) {
 			toast.error("Failed to get device", {
 				position: "bottom-right",
@@ -37,7 +38,7 @@ const DeviceManageContent: React.FC = () => {
 			});
 		}
 	};
-
+	console.log({ device });
 	return (
 		<SecondaryLayout>
 			<Container maxWidth="xl">
@@ -51,7 +52,8 @@ const DeviceManageContent: React.FC = () => {
 					</Typography>
 				</Box>
 				<Grid>
-					{devices?.deviceId as string}
+					{device?.deviceId}
+					<DevicePanel device={device} />
 					{/* Deivce Detail */}
 					{/* <UserPanel
 						user={userInfo}

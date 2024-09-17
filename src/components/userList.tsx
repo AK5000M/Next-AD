@@ -14,7 +14,7 @@ import {
 	Typography,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import TableComponent from "@/sections/UserTable";
+import TableComponent from "@/sections/DataTable";
 import { fetchUsers } from "@/store/actions/userActions";
 import { UserModelType } from "@/types/index";
 import { CenterFocusStrong } from "@mui/icons-material";

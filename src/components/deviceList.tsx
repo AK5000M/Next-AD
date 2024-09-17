@@ -7,13 +7,12 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { Box, Button, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import TableComponent from "@/sections/UserTable";
+import TableComponent from "@/sections/DataTable";
 import { fetchDevices } from "@/store/actions/devicesActions";
 import { UserModelType, DeviceModelType } from "@/types/index";
 
 const DeviceList: React.FC = () => {
 	const router = useRouter();
-	const [users, setUsers] = useState<UserModelType[]>([]);
 	const [devices, setDevices] = useState<DeviceModelType[]>([]);
 	const [loading, setLoading] = useState(true);
 
@@ -72,7 +71,7 @@ const DeviceList: React.FC = () => {
 				renderActions={(row) => (
 					<Button
 						variant="outlined"
-						onClick={() => onManageDevice(row.deviceId)}
+						onClick={() => onManageDevice(row._id)}
 						startIcon={<EditIcon />}
 						sx={{
 							fontSize: "12px",

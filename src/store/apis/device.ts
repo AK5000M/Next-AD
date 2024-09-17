@@ -40,7 +40,6 @@ export const getDeviceInfo = async (deviceId: string) => {
 		if (!token) {
 			throw new Error("Token not found in local storage");
 		}
-
 		const response = await axios.get(
 			`${API_BASE_URL}/device/getInfo/${deviceId}`,
 			{
@@ -50,8 +49,6 @@ export const getDeviceInfo = async (deviceId: string) => {
 				},
 			}
 		);
-
-		console.log({ response });
 
 		return response.data;
 	} catch (error) {
