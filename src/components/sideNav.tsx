@@ -13,10 +13,15 @@ import {
 	Dashboard as DashboardIcon,
 	People as PeopleIcon,
 } from "@mui/icons-material";
+import DevicesOutlinedIcon from "@mui/icons-material/DevicesOutlined";
 import { useRouter } from "next/router";
 import Image from "next/image";
 
-import { DashboardURL, UserManagementURL } from "@/utils/routes";
+import {
+	DashboardURL,
+	UserManagementURL,
+	DeviceManagementURL,
+} from "@/utils/routes";
 
 const drawerWidth = 240;
 
@@ -26,9 +31,14 @@ const SideNav: React.FC = () => {
 	const menuItems = [
 		{ text: "Dashboard", icon: <DashboardIcon />, path: DashboardURL },
 		{
-			text: "Gerenciamento de usuários",
+			text: "Gerenciamento Usuários",
 			icon: <PeopleIcon />,
 			path: UserManagementURL,
+		},
+		{
+			text: "Device Management",
+			icon: <DevicesOutlinedIcon />,
+			path: DeviceManagementURL,
 		},
 		// Add more menu items as needed
 	];
@@ -79,6 +89,7 @@ const SideNav: React.FC = () => {
 							<ListItemIcon
 								sx={{
 									color: "var(--iconColor)",
+									minWidth: "40px",
 								}}
 							>
 								{item.icon}

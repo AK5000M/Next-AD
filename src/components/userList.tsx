@@ -96,7 +96,7 @@ const UserList: React.FC = () => {
 							fontSize: "12px",
 						}}
 					>
-						Gerenciamento
+						Gerenciar
 					</Button>
 				)}
 			/>
