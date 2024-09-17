@@ -36,7 +36,7 @@ const SideNav: React.FC = () => {
 			path: UserManagementURL,
 		},
 		{
-			text: "Device Management",
+			text: "Gerenciamento Dispositivos",
 			icon: <DevicesOutlinedIcon />,
 			path: DeviceManagementURL,
 		},
