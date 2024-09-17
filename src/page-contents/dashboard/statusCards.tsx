@@ -1,7 +1,14 @@
 // components/StatsCards.tsx
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import { Person, CheckCircle, Block, Devices } from "@mui/icons-material";
+import {
+	Person,
+	CheckCircle,
+	Block,
+	Devices,
+	BorderRight,
+	Height,
+} from "@mui/icons-material";
 import PendingOutlinedIcon from "@mui/icons-material/PendingOutlined";
 
 interface StatsCardsProps {
@@ -18,7 +25,8 @@ const cardStyles = {
 	display: "flex",
 	alignItems: "center",
 	padding: "16px",
-	marginBottom: "16px",
+	borderRadius: "5px",
+	height: "100%",
 };
 
 const iconStyles = {
@@ -45,9 +53,12 @@ export const StatsCards: React.FC<StatsCardsProps> = ({
 		<Box
 			sx={{
 				flex: 1,
+				display: "flex",
+				flexWrap: "wrap",
+				gap: 2,
 			}}
 		>
-			<Box sx={{ flex: "1 1 calc(50% - 16px)" }}>
+			<Box sx={{ flex: "1 calc(50% - 16px)", minWidth: "300px" }}>
 				<Box sx={cardStyles}>
 					<Person
 						sx={{
@@ -71,7 +82,7 @@ export const StatsCards: React.FC<StatsCardsProps> = ({
 					</Box>
 				</Box>
 			</Box>
-			<Box sx={{ flex: "1 1 calc(50% - 16px)", minWidth: "300px" }}>
+			<Box sx={{ flex: "1 calc(50% - 16px)", minWidth: "300px" }}>
 				<Box sx={cardStyles}>
 					<CheckCircle
 						sx={{
@@ -95,7 +106,7 @@ export const StatsCards: React.FC<StatsCardsProps> = ({
 					</Box>
 				</Box>
 			</Box>
-			<Box sx={{ flex: "1 1 calc(50% - 16px)", minWidth: "300px" }}>
+			<Box sx={{ flex: "1 calc(50% - 16px)", minWidth: "300px" }}>
 				<Box sx={cardStyles}>
 					<PendingOutlinedIcon
 						sx={{
@@ -119,7 +130,7 @@ export const StatsCards: React.FC<StatsCardsProps> = ({
 					</Box>
 				</Box>
 			</Box>
-			<Box sx={{ flex: "1 1 calc(50% - 16px)", minWidth: "300px" }}>
+			<Box sx={{ flex: "1 calc(50% - 16px)", minWidth: "300px" }}>
 				<Box sx={cardStyles}>
 					<Block
 						sx={{
@@ -143,7 +154,7 @@ export const StatsCards: React.FC<StatsCardsProps> = ({
 					</Box>
 				</Box>
 			</Box>
-			<Box sx={{ flex: "1 1 calc(50% - 16px)", minWidth: "300px" }}>
+			<Box sx={{ flex: "1 calc(50% - 16px)", minWidth: "300px" }}>
 				<Box sx={cardStyles}>
 					<Devices
 						sx={{

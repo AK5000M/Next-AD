@@ -70,7 +70,7 @@ const DashboardContent: React.FC = () => {
 					>
 						Painel
 					</Typography>
-					<Box sx={{ display: "flex", gap: "20px" }}>
+					<Box sx={{ display: "flex", gap: "40px" }}>
 						<StatsCards
 							totalUsers={totalUsers}
 							allowedUsers={allowedUsers}
