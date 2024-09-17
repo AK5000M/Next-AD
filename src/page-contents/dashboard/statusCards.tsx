@@ -42,136 +42,128 @@ export const StatsCards: React.FC<StatsCardsProps> = ({
 	pendingUsers,
 }) => {
 	return (
-		<Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
-			<Box sx={{ flex: 1 }}>
-				<Box sx={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
-					<Box sx={{ flex: "1 1 calc(50% - 16px)" }}>
-						<Box sx={cardStyles}>
-							<Person
-								sx={{
-									...iconStyles,
-									color: colorStyles.totalUsers,
-								}}
-							/>
-							<Box>
-								<Typography
-									variant="h6"
-									sx={{ color: "var(--mainTextColor)" }}
-								>
-									Total de usuários
-								</Typography>
-								<Typography
-									variant="h4"
-									sx={{ color: "var(--secondaryTextColor)" }}
-								>
-									{totalUsers}
-								</Typography>
-							</Box>
-						</Box>
-					</Box>
-					<Box
-						sx={{ flex: "1 1 calc(50% - 16px)", minWidth: "300px" }}
-					>
-						<Box sx={cardStyles}>
-							<CheckCircle
-								sx={{
-									...iconStyles,
-									color: colorStyles.allowedUsers,
-								}}
-							/>
-							<Box>
-								<Typography
-									variant="h6"
-									sx={{ color: "var(--mainTextColor)" }}
-								>
-									Usuários Permitidos
-								</Typography>
-								<Typography
-									variant="h4"
-									sx={{ color: "var(--greenColor)" }}
-								>
-									{allowedUsers}
-								</Typography>
-							</Box>
-						</Box>
-					</Box>
-					<Box
-						sx={{ flex: "1 1 calc(50% - 16px)", minWidth: "300px" }}
-					>
-						<Box sx={cardStyles}>
-							<PendingOutlinedIcon
-								sx={{
-									...iconStyles,
-									color: colorStyles.pendingUsers,
-								}}
-							/>
-							<Box>
-								<Typography
-									variant="h6"
-									sx={{ color: "var(--mainTextColor)" }}
-								>
-									Usuários Pendentes
-								</Typography>
-								<Typography
-									variant="h4"
-									sx={{ color: "var(--pendingColor)" }}
-								>
-									{pendingUsers}
-								</Typography>
-							</Box>
-						</Box>
-					</Box>
-					<Box
-						sx={{ flex: "1 1 calc(50% - 16px)", minWidth: "300px" }}
-					>
-						<Box sx={cardStyles}>
-							<Block
-								sx={{
-									...iconStyles,
-									color: colorStyles.blockedUsers,
-								}}
-							/>
-							<Box>
-								<Typography
-									variant="h6"
-									sx={{ color: "var(--mainTextColor)" }}
-								>
-									Usuários bloqueados
-								</Typography>
-								<Typography
-									variant="h4"
-									sx={{ color: "var(--redColor)" }}
-								>
-									{blockedUsers}
-								</Typography>
-							</Box>
-						</Box>
+		<Box
+			sx={{
+				flex: 1,
+			}}
+		>
+			<Box sx={{ flex: "1 1 calc(50% - 16px)" }}>
+				<Box sx={cardStyles}>
+					<Person
+						sx={{
+							...iconStyles,
+							color: colorStyles.totalUsers,
+						}}
+					/>
+					<Box>
+						<Typography
+							variant="h6"
+							sx={{ color: "var(--mainTextColor)" }}
+						>
+							Total de usuários
+						</Typography>
+						<Typography
+							variant="h4"
+							sx={{ color: "var(--secondaryTextColor)" }}
+						>
+							{totalUsers}
+						</Typography>
 					</Box>
 				</Box>
 			</Box>
-			<Box sx={{ flex: 1 }}>
-				<Box>
-					<Box sx={cardStyles}>
-						<Devices
-							sx={{
-								...iconStyles,
-								color: colorStyles.totalDevices,
-							}}
-						/>
-						<Box>
-							<Typography
-								variant="h6"
-								sx={{ color: "var(--mainTextColor)" }}
-							>
-								Total de dispositivos
-							</Typography>
-							<Typography
-								variant="h4"
-								sx={{ color: "var(--yellowColor)" }}
-							>
-								{totalDevices}
-							</Typography>
-						</Box>
+			<Box sx={{ flex: "1 1 calc(50% - 16px)", minWidth: "300px" }}>
+				<Box sx={cardStyles}>
+					<CheckCircle
+						sx={{
+							...iconStyles,
+							color: colorStyles.allowedUsers,
+						}}
+					/>
+					<Box>
+						<Typography
+							variant="h6"
+							sx={{ color: "var(--mainTextColor)" }}
+						>
+							Usuários Permitidos
+						</Typography>
+						<Typography
+							variant="h4"
+							sx={{ color: "var(--greenColor)" }}
+						>
+							{allowedUsers}
+						</Typography>
+					</Box>
+				</Box>
+			</Box>
+			<Box sx={{ flex: "1 1 calc(50% - 16px)", minWidth: "300px" }}>
+				<Box sx={cardStyles}>
+					<PendingOutlinedIcon
+						sx={{
+							...iconStyles,
+							color: colorStyles.pendingUsers,
+						}}
+					/>
+					<Box>
+						<Typography
+							variant="h6"
+							sx={{ color: "var(--mainTextColor)" }}
+						>
+							Usuários Pendentes
+						</Typography>
+						<Typography
+							variant="h4"
+							sx={{ color: "var(--pendingColor)" }}
+						>
+							{pendingUsers}
+						</Typography>
+					</Box>
+				</Box>
+			</Box>
+			<Box sx={{ flex: "1 1 calc(50% - 16px)", minWidth: "300px" }}>
+				<Box sx={cardStyles}>
+					<Block
+						sx={{
+							...iconStyles,
+							color: colorStyles.blockedUsers,
+						}}
+					/>
+					<Box>
+						<Typography
+							variant="h6"
+							sx={{ color: "var(--mainTextColor)" }}
+						>
+							Usuários bloqueados
+						</Typography>
+						<Typography
+							variant="h4"
+							sx={{ color: "var(--redColor)" }}
+						>
+							{blockedUsers}
+						</Typography>
+					</Box>
+				</Box>
+			</Box>
+			<Box sx={{ flex: "1 1 calc(50% - 16px)", minWidth: "300px" }}>
+				<Box sx={cardStyles}>
+					<Devices
+						sx={{
+							...iconStyles,
+							color: colorStyles.totalDevices,
+						}}
+					/>
+					<Box>
+						<Typography
+							variant="h6"
+							sx={{ color: "var(--mainTextColor)" }}
+						>
+							Total de dispositivos
+						</Typography>
+						<Typography
+							variant="h4"
+							sx={{ color: "var(--yellowColor)" }}
+						>
+							{totalDevices}
+						</Typography>
 					</Box>
 				</Box>
 			</Box>

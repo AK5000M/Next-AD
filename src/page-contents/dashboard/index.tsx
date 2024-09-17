@@ -6,6 +6,7 @@ import SecondaryLayout from "@/layout/secondaryLayout";
 import { fetchUsers } from "@/store/actions/userActions";
 import { fetchDevices } from "@/store/actions/devicesActions";
 import { StatsCards } from "./statusCards";
+import { GraphCards } from "./graphCards";
 import { UserModelType } from "@/types/index";
 
 const DashboardContent: React.FC = () => {
@@ -69,15 +70,24 @@ const DashboardContent: React.FC = () => {
 					>
 						Painel
 					</Typography>
+					<Box sx={{ display: "flex", gap: "20px" }}>
+						<StatsCards
+							totalUsers={totalUsers}
+							allowedUsers={allowedUsers}
+							pendingUsers={pendingUsers}
+							blockedUsers={blockedUsers}
+							totalDevices={totalDevices}
+						/>
 
+						<GraphCards
+							totalUsers={totalUsers}
+							allowedUsers={allowedUsers}
+							pendingUsers={pendingUsers}
+							blockedUsers={blockedUsers}
+							totalDevices={totalDevices}
+						/>
+					</Box>
 					{/* Stats Cards */}
-					<StatsCards
-						totalUsers={totalUsers}
-						allowedUsers={allowedUsers}
-						pendingUsers={pendingUsers}
-						blockedUsers={blockedUsers}
-						totalDevices={totalDevices}
-					/>
 				</Box>
 			</Container>
 

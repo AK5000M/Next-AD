@@ -128,3 +128,10 @@ input:-internal-autofill-selected {
 .MuiInputLabel-root.Mui-focused {
 	color: rgb(52, 59, 79);
 }
+
+.graph-panel {
+	width: 100% !important;
+	background-color: rgb(255, 255, 255);
+	border: solid 1px rgb(52, 59, 79);
+	border-radius: 5px;
+}
