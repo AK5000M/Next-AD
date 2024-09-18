@@ -135,3 +135,7 @@ input:-internal-autofill-selected {
 	border: solid 1px rgb(52, 59, 79);
 	border-radius: 5px;
 }
+
+.MuiChartsLegend-series text {
+	fill: rgb(255, 255, 255) !important;
+}
