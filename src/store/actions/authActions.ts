@@ -34,8 +34,7 @@ export const login =
 export const logoutUser = () => (dispatch: AppDispatch) => {
 	// Remove user and token from localStorage
 	if (typeof window !== "undefined" && window.localStorage) {
-		localStorage.removeItem("user");
-		localStorage.removeItem("token");
+		localStorage.clear();
 	}
 	// localStorage?.removeItem("authState");
 	dispatch(logout());
