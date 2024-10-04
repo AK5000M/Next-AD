@@ -207,7 +207,7 @@ const TopNav: React.FC = () => {
 						aria-labelledby="logout-dialog-title"
 						sx={{
 							"& .MuiPaper-root": {
-								backgroundColor: "var(--primaryColor)",
+								backgroundColor: "var(--secondaryColor)",
 								border: "solid 1px var(--borderColor)",
 							},
 						}}

@@ -55,3 +55,30 @@ export const getDeviceInfo = async (deviceId: string) => {
 		console.log("fetchUserList error:", error);
 	}
 };
+
+// Delete One Device
+export const deleteOneDevice = async (deviceId: string) => {
+	try {
+		let token;
+		if (typeof window !== "undefined" && window.localStorage) {
+			// Check if running on the client side
+			token = localStorage.getItem("token");
+		}
+		if (!token) {
+			throw new Error("Token not found in local storage");
+		}
+		const response = await axios.delete(
+			`${API_BASE_URL}/device/delete/${deviceId}`,
+			{
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
+
+		return response.data;
+	} catch (error) {
+		console.log("fetchUserList error:", error);
+	}
+};

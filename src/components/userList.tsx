@@ -5,19 +5,11 @@ import { useRouter } from "next/router";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import {
-	Box,
-	Button,
-	ListItem,
-	ListItemText,
-	Stack,
-	Typography,
-} from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
+import { Box, IconButton, Typography, Tooltip } from "@mui/material";
+import DriveFileRenameOutlineOutlinedIcon from "@mui/icons-material/DriveFileRenameOutlineOutlined";
 import TableComponent from "@/sections/DataTable";
 import { fetchUsers } from "@/store/actions/userActions";
 import { UserModelType } from "@/types/index";
-import { CenterFocusStrong } from "@mui/icons-material";
 
 const UserList: React.FC = () => {
 	const router = useRouter();
@@ -88,16 +80,24 @@ const UserList: React.FC = () => {
 				data={users}
 				loading={loading}
 				renderActions={(row) => (
-					<Button
-						variant="outlined"
-						onClick={() => onEditUser(row._id)}
-						startIcon={<EditIcon />}
-						sx={{
-							fontSize: "12px",
-						}}
-					>
-						Gerenciar
-					</Button>
+					<Tooltip title="Editar Usuário">
+						<IconButton
+							onClick={() => onEditUser(row._id)}
+							sx={{
+								cursor: "pointer",
+								backgroundColor: "var(--blueLightColor)",
+								borderRadius: "5px",
+								fontSize: "24px",
+								color: "var(--mainTextColor)",
+								"&:hover": {
+									color: "var(--secondaryTextColor)",
+									backgroundColor: "var(--blueLightColor)",
+								},
+							}}
+						>
+							<DriveFileRenameOutlineOutlinedIcon />
+						</IconButton>
+					</Tooltip>
 				)}
 			/>
 			<ToastContainer />

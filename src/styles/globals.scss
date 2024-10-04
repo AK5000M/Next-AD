@@ -13,8 +13,12 @@
 
 	--iconColor: rgb(174, 185, 225);
 	--greenColor: rgb(20, 202, 116);
+	--greenLightColor: rgb(20 202 116 / 28%);
 	--secondaryGreenColor: rgba(5, 193, 104, 0.2);
 	--redColor: rgb(255, 90, 101);
+	--redLightColor: rgb(249 0 17 / 38%);
+	--blueColor: rgb(2, 85, 252);
+	--blueLightColor: rgb(2 85 252 / 45%);
 	--secondaryRedColor: rgba(255, 90, 101, 0.2);
 	--yellowColor: rgb(253, 181, 42);
 	--secondaryYellowColor: rgba(255, 176, 22, 0.2);
@@ -57,7 +61,7 @@ p {
 }
 
 button {
-	border-radius: 50px !important;
+	border-radius: 5px !important;
 }
 
 @layer utilities {
