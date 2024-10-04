@@ -132,9 +132,9 @@ const DeviceList: React.FC = () => {
 									backgroundColor: "var(--blueLightColor)",
 									borderRadius: "5px",
 									fontSize: "24px",
-									color: "var(--mainTextColor)",
+									color: "var(--secondaryTextColor)",
 									"&:hover": {
-										color: "var(--secondaryTextColor)",
+										color: "var(--mainTextColor)",
 										backgroundColor:
 											"var(--blueLightColor)",
 									},
@@ -152,9 +152,9 @@ const DeviceList: React.FC = () => {
 									backgroundColor: "var(--redLightColor)",
 									borderRadius: "5px",
 									fontSize: "24px",
-									color: "var(--mainTextColor)",
+									color: "var(--secondaryTextColor)",
 									"&:hover": {
-										color: "var(--secondaryTextColor)",
+										color: "var(--mainTextColor)",
 										backgroundColor: "var(--redLightColor)",
 									},
 								}}
