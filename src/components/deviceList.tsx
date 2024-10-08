@@ -38,6 +38,7 @@ const DeviceList: React.FC = () => {
 		{ field: "version", label: "Versão" },
 		{ field: "connectStatus", label: "Rede(G)" },
 		{ field: "deviceInfo", label: "Informações Dispositivo" },
+		{ field: "created_at", label: "Data de criação" },
 	];
 
 	useEffect(() => {
