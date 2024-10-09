@@ -91,7 +91,7 @@ const UserList: React.FC = () => {
 			await deleteUser(userId);
 
 			fetchUserList();
-			toast.success("Dispositivo excluído com sucesso.", {
+			toast.success("Usuário excluído com sucesso.", {
 				position: "bottom-right",
 				style: {
 					backgroundColor: "var(--secondaryGreenColor)",
@@ -99,7 +99,7 @@ const UserList: React.FC = () => {
 				},
 			});
 		} catch (error) {
-			toast.error("Falha ao excluir o dispositivo.", {
+			toast.error("Falha ao excluir o Usuário.", {
 				position: "bottom-right",
 				style: {
 					backgroundColor: "var(--secondaryRedColor)",
@@ -204,7 +204,7 @@ const UserList: React.FC = () => {
 						id="alert-dialog-description"
 						sx={{ color: "var(--iconColor)" }}
 					>
-						{"Tem certeza de que deseja excluir este dispositivo?"}
+						{"Tem certeza de que deseja excluir este usuário?"}
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
