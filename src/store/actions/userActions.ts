@@ -4,6 +4,7 @@ import {
 	updateUserStatus,
 	updateIP,
 	updateLicense,
+	deleteOneUser,
 } from "@/store/apis/user";
 
 export const fetchUsers = async () => {
@@ -48,5 +49,14 @@ export const updateUserLicense = async (userId: string, license: string) => {
 		return data;
 	} catch (error) {
 		console.error("Allow user failed", error);
+	}
+};
+
+export const deleteUser = async (userId: string) => {
+	try {
+		const data = await deleteOneUser(userId);
+		return data;
+	} catch (error) {
+		console.error("User delete failed", error);
 	}
 };

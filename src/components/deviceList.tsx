@@ -19,7 +19,7 @@ import DriveFileRenameOutlineOutlinedIcon from "@mui/icons-material/DriveFileRen
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import TableComponent from "@/sections/DataTable";
 import { fetchDevices, deleteDevice } from "@/store/actions/devicesActions";
-import { UserModelType, DeviceModelType } from "@/types/index";
+import { DeviceModelType } from "@/types/index";
 
 const DeviceList: React.FC = () => {
 	const router = useRouter();

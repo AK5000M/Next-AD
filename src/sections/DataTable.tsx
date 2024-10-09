@@ -157,6 +157,11 @@ const TableComponent: React.FC<TableComponentProps> = ({
 													? "Bloqueado"
 													: "Pendente"}
 											</div>
+										) : column.field === "created_at" ? (
+											// Format the created_at field as dd/mm/yyyy
+											new Date(
+												row[column.field]
+											).toLocaleDateString("en-GB")
 										) : (
 											row[column.field]
 										)}
