@@ -110,12 +110,12 @@ const UserList: React.FC = () => {
 	};
 
 	const columns = [
-		{ field: "_id", label: "ID" },
 		{ field: "username", label: "Nome completo" },
 		{ field: "email", label: "Email" },
 		{ field: "ip", label: "IP" },
 		{ field: "role", label: "Função" },
 		{ field: "devices", label: "Dispositivos" },
+		{ field: "extraDevice", label: "Contagem Dispositivos Extras" },
 		{ field: "license_duration", label: "Duração da licença(Dias)" },
 		{ field: "created_at", label: "Data registro" },
 		{ field: "status", label: "Estado" },

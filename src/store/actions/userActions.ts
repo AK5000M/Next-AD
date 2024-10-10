@@ -4,6 +4,7 @@ import {
 	updateUserStatus,
 	updateIP,
 	updateLicense,
+	updateExtraDeviceAmount,
 	deleteOneUser,
 } from "@/store/apis/user";
 
@@ -46,6 +47,15 @@ export const updateUserIP = async (userId: string, ip: string) => {
 export const updateUserLicense = async (userId: string, license: string) => {
 	try {
 		const data = await updateLicense(userId, license);
+		return data;
+	} catch (error) {
+		console.error("Allow user failed", error);
+	}
+};
+
+export const updateUserExtraDevice = async (userId: string, extra: number) => {
+	try {
+		const data = await updateExtraDeviceAmount(userId, extra);
 		return data;
 	} catch (error) {
 		console.error("Allow user failed", error);

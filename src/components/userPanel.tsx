@@ -16,6 +16,7 @@ import {
 	Select,
 	FormControl,
 	InputLabel,
+	Tooltip,
 } from "@mui/material";
 
 import EditIcon from "@mui/icons-material/Edit";
@@ -26,6 +27,7 @@ import {
 	updateUser,
 	updateUserIP,
 	updateUserLicense,
+	updateUserExtraDevice,
 } from "@/store/actions/userActions";
 
 import { UserManagementURL } from "@/utils/routes";
@@ -74,23 +76,26 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 
 	const [ip, setIp] = useState("");
 	const [isEditing, setIsEditing] = useState(false);
+	const [extraDevice, setExtraDevice] = useState(0);
+	const [extraEditing, setExtraEditing] = useState(false);
 
 	const [selectedLicense, setSelectedLicense] = useState("");
 
 	useEffect(() => {
 		setIp(user?.ip);
+		setExtraDevice(user?.extraDevice);
 	}, [user]);
 
-	const handleEditClick = () => {
+	const handleIPEditClick = () => {
 		setIsEditing(true);
 	};
 
-	const handleCloseClick = () => {
+	const handleIPCloseClick = () => {
 		setIsEditing(false);
 	};
 
 	// Update User IP
-	const handleSaveClick = async (userId: string) => {
+	const handleIPSaveClick = async (userId: string) => {
 		try {
 			setIsEditing(false);
 			if (ip !== user?.ip) {
@@ -197,7 +202,6 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 
 	// Select License Date
 	const handleLicenseChange = (event: any) => {
-		console.log("event:", event);
 		setSelectedLicense(event.target.value);
 	};
 
@@ -244,9 +248,71 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 		}
 	};
 
+	// Open Extra Device Form
+	const handleExtraDeviceEditClick = () => {
+		setExtraEditing(true);
+	};
+
+	// Close Extra Device Form
+	const handleExtraDeviceCloseClick = () => {
+		setExtraEditing(false);
+	};
+
+	// Add Extra Devices
+	const handleExtraDeviceChange = (
+		e: React.ChangeEvent<HTMLInputElement>
+	) => {
+		let value = e.target.value;
+
+		// Restrict input to only numbers
+		value = value.replace(/[^0-9]/g, "");
+
+		setExtraDevice(Number(value)); // Set the formatted value
+	};
+
 	// Update Extra Device Count
-	const UpdateExtraDevice = async (userId: string) => {
-		console.log("extra device:", userId);
+	const handleExtraSaveClick = async (userId: string) => {
+		try {
+			setExtraEditing(false);
+
+			const response = await updateUserExtraDevice(userId, extraDevice);
+
+			if (response.success) {
+				toast.success(
+					"Dispositivos extras foram atualizados com sucesso.",
+					{
+						position: "bottom-right",
+						className: "custom-toast",
+						style: {
+							backgroundColor: "var(--secondaryGreenColor)",
+							color: "white",
+						},
+						onClose: () => {
+							router.push(UserManagementURL);
+						},
+					}
+				);
+			} else {
+				toast.error(
+					"Falha ao atualizar os dispositivos extras do usuário.",
+					{
+						position: "bottom-right",
+						style: {
+							backgroundColor: "var(--secondaryRedColor)",
+							color: "white",
+						},
+					}
+				);
+			}
+		} catch (error) {
+			toast.error("Erro do Servidor Interno", {
+				position: "bottom-right",
+				style: {
+					backgroundColor: "var(--secondaryRedColor)",
+					color: "white",
+				},
+			});
+		}
 	};
 
 	return (
@@ -407,7 +473,7 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 									<IconButton
 										size="small"
 										onClick={() =>
-											handleSaveClick(user?._id)
+											handleIPSaveClick(user?._id)
 										}
 									>
 										<SaveIcon
@@ -419,7 +485,7 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 									</IconButton>
 									<IconButton
 										size="small"
-										onClick={handleCloseClick}
+										onClick={handleIPCloseClick}
 									>
 										<CloseIcon
 											sx={{
@@ -430,17 +496,19 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 									</IconButton>
 								</Box>
 							) : (
-								<IconButton
-									size="small"
-									onClick={handleEditClick}
-								>
-									<EditIcon
-										sx={{
-											fontSize: "22px",
-											color: " var(--greenColor)",
-										}}
-									/>
-								</IconButton>
+								<Tooltip title="Alterar IP" placement="top">
+									<IconButton
+										size="small"
+										onClick={handleIPEditClick}
+									>
+										<EditIcon
+											sx={{
+												fontSize: "22px",
+												color: " var(--greenColor)",
+											}}
+										/>
+									</IconButton>
+								</Tooltip>
 							)}
 						</Box>
 					</Grid>
@@ -466,23 +534,96 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 					</Grid>
 
 					<Grid item xs={12} sm={4}>
-						<Typography
-							variant="subtitle1"
+						<Box
 							sx={{
-								color: "var(--iconColor)",
-								fontSize: "14px",
+								display: "flex",
+								alignItems: "center",
+								gap: "5px",
 							}}
 						>
-							Dispositivo extra:{" "}
-							<span
-								style={{
-									fontSize: "16px",
-									color: "var(--mainTextColor)",
+							<Typography
+								variant="subtitle1"
+								sx={{
+									color: "var(--iconColor)",
+									fontSize: "14px",
 								}}
 							>
-								{user?.extraDevice}
-							</span>
-						</Typography>
+								Dispositivo extra:{" "}
+							</Typography>
+
+							{extraEditing ? (
+								<TextField
+									value={extraDevice}
+									onChange={handleExtraDeviceChange}
+									variant="outlined"
+									size="small"
+									sx={{
+										width: "150px",
+										fontSize: "14px",
+										color: "var(--mainTextColor)",
+									}}
+									InputProps={{
+										sx: {
+											color: "var(--mainTextColor)",
+										},
+									}}
+								/>
+							) : (
+								<span
+									style={{
+										fontSize: "16px",
+										color: "var(--mainTextColor)",
+									}}
+								>
+									{extraDevice}
+								</span>
+							)}
+							{extraEditing ? (
+								<Box sx={{ display: "flex", gap: "1px" }}>
+									<IconButton
+										size="small"
+										onClick={() =>
+											handleExtraSaveClick(user?._id)
+										}
+									>
+										<SaveIcon
+											sx={{
+												fontSize: "22px",
+												color: " var(--greenColor)",
+											}}
+										/>
+									</IconButton>
+									<IconButton
+										size="small"
+										onClick={handleExtraDeviceCloseClick}
+									>
+										<CloseIcon
+											sx={{
+												fontSize: "22px",
+												color: " var(--redColor)",
+											}}
+										/>
+									</IconButton>
+								</Box>
+							) : (
+								<Tooltip
+									title="Editar Dispositivo Extra"
+									placement="top"
+								>
+									<IconButton
+										size="small"
+										onClick={handleExtraDeviceEditClick}
+									>
+										<EditIcon
+											sx={{
+												fontSize: "22px",
+												color: " var(--greenColor)",
+											}}
+										/>
+									</IconButton>
+								</Tooltip>
+							)}
+						</Box>
 					</Grid>
 
 					<Grid item xs={12}>
@@ -765,7 +906,7 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 						>
 							Voltar à página
 						</Button>
-						<Button
+						{/* <Button
 							variant="contained"
 							sx={{
 								backgroundColor: "rgb(42 156 253)",
@@ -779,7 +920,7 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 							onClick={() => UpdateExtraDevice(user?._id)}
 						>
 							Dispositivos extras
-						</Button>
+						</Button> */}
 						<Button
 							variant="contained"
 							sx={{
