@@ -17,6 +17,7 @@ import {
 	FormControl,
 	InputLabel,
 	Tooltip,
+	Switch,
 } from "@mui/material";
 
 import EditIcon from "@mui/icons-material/Edit";
@@ -28,6 +29,7 @@ import {
 	updateUserIP,
 	updateUserLicense,
 	updateUserExtraDevice,
+	setResetPassword,
 } from "@/store/actions/userActions";
 
 import { UserManagementURL } from "@/utils/routes";
@@ -78,6 +80,9 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [extraDevice, setExtraDevice] = useState(0);
 	const [extraEditing, setExtraEditing] = useState(false);
+	const [checked, setChecked] = useState(user?.available_reset_password);
+
+	console.log({ user });
 
 	const [selectedLicense, setSelectedLicense] = useState("");
 
@@ -303,6 +308,52 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 						},
 					}
 				);
+			}
+		} catch (error) {
+			toast.error("Erro do Servidor Interno", {
+				position: "bottom-right",
+				style: {
+					backgroundColor: "var(--secondaryRedColor)",
+					color: "white",
+				},
+			});
+		}
+	};
+
+	// Allow Reset Password
+	const handleResetPasswordChange = async (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
+		try {
+			setChecked(event.target.checked);
+			const userId = user?._id;
+			const status = event.target.checked;
+
+			const response = await setResetPassword(userId, status);
+
+			if (response.success) {
+				toast.success(
+					"A redefinição de senha foi atualizada com sucesso.",
+					{
+						position: "bottom-right",
+						className: "custom-toast",
+						style: {
+							backgroundColor: "var(--secondaryGreenColor)",
+							color: "white",
+						},
+						onClose: () => {
+							router.push(UserManagementURL);
+						},
+					}
+				);
+			} else {
+				toast.error("Falha na redefinição de senha.", {
+					position: "bottom-right",
+					style: {
+						backgroundColor: "var(--secondaryRedColor)",
+						color: "white",
+					},
+				});
 			}
 		} catch (error) {
 			toast.error("Erro do Servidor Interno", {
@@ -874,6 +925,38 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 									? "Bloqueado"
 									: "Pendente"}
 							</span>
+						</Typography>
+					</Grid>
+
+					<Grid item xs={12} sm={4}>
+						<Typography
+							variant="subtitle1"
+							sx={{
+								color: "var(--iconColor)",
+								fontSize: "14px",
+							}}
+						>
+							Permitir redefinição de senha:
+							<Switch
+								checked={checked}
+								onChange={handleResetPasswordChange}
+								inputProps={{ "aria-label": "controlled" }}
+								sx={{
+									"& .MuiSwitch-switchBase": {
+										"&.Mui-checked": {
+											color: "var(mainTextColor)",
+											"& + .MuiSwitch-track": {
+												backgroundColor:
+													"var(--greenColor)",
+											},
+										},
+									},
+									"& .MuiSwitch-track": {
+										backgroundColor:
+											"var(--secondaryTextColor)",
+									},
+								}}
+							/>
 						</Typography>
 					</Grid>
 

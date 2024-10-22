@@ -1,5 +1,3 @@
-// UserList.tsx
-
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { toast, ToastContainer } from "react-toastify";
@@ -10,6 +8,7 @@ import {
 	IconButton,
 	Typography,
 	Tooltip,
+	TextField, // Import TextField for search input
 	Dialog,
 	DialogActions,
 	DialogContent,
@@ -27,20 +26,24 @@ import { UserModelType } from "@/types/index";
 const UserList: React.FC = () => {
 	const router = useRouter();
 	const [users, setUsers] = useState<UserModelType[]>([]);
+	const [filteredUsers, setFilteredUsers] = useState<UserModelType[]>([]); // State for filtered users
 	const [loading, setLoading] = useState(true);
 	const [openDialog, setOpenDialog] = useState(false);
 	const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+	const [searchQuery, setSearchQuery] = useState<string>(""); // State for search input
 
 	useEffect(() => {
 		fetchUserList();
 	}, []);
 
+	// Fetch users and update both the user and filtered user states
 	const fetchUserList = async () => {
 		try {
 			setLoading(true);
 			const response = await fetchUsers();
 			if (response.success) {
 				setUsers(response.data);
+				setFilteredUsers(response.data); // Initialize filteredUsers with the full user list
 			} else {
 				toast.error("Failed to fetch users", {
 					position: "bottom-right",
@@ -63,6 +66,24 @@ const UserList: React.FC = () => {
 			setLoading(false);
 		}
 	};
+
+	// Update filtered users based on search query
+	useEffect(() => {
+		if (searchQuery.trim() === "") {
+			setFilteredUsers(users);
+		} else {
+			const filtered = users.filter(
+				(user: any) =>
+					user.username
+						.toLowerCase()
+						.includes(searchQuery.toLowerCase()) ||
+					user?.email
+						.toLowerCase()
+						.includes(searchQuery.toLowerCase())
+			);
+			setFilteredUsers(filtered);
+		}
+	}, [searchQuery, users]);
 
 	const onEditUser = (userId: string) => {
 		router.push(`/user-management/edit/${userId}`);
@@ -123,18 +144,62 @@ const UserList: React.FC = () => {
 
 	return (
 		<Box sx={{ mt: 4 }}>
-			<Typography
-				variant="subtitle1"
+			<Box
 				sx={{
-					color: "var(--iconColor)",
-					fontSize: "14px",
+					display: "flex",
+					justifyContent: "space-between",
+					alignItems: "flex-end",
+					mb: 1,
 				}}
 			>
-				Total de usuários: {users.length}
-			</Typography>
+				<Typography
+					variant="subtitle1"
+					sx={{
+						color: "var(--iconColor)",
+						fontSize: "14px",
+					}}
+				>
+					Total de usuários: {filteredUsers.length}{" "}
+				</Typography>
+
+				{/* Add Search User panel by Email or Username */}
+				<TextField
+					label="Pesquisar por e-mail ou nome"
+					variant="outlined"
+					fullWidth
+					value={searchQuery}
+					onChange={(e) => setSearchQuery(e.target.value)}
+					InputLabelProps={{
+						style: { color: "var(--secondaryTextColor)" },
+					}}
+					InputProps={{
+						sx: {
+							color: "var(--mainTextColor)",
+						},
+					}}
+					sx={{
+						width: "300px",
+						backgroundColor: "var(--secondaryColor)",
+						borderRadius: "5px",
+						border: "solid 1px var(--borderColor)",
+						"& .MuiOutlinedInput-root": {
+							"& fieldset": {
+								borderColor: "var(--borderColor)",
+							},
+							"&:hover fieldset": {
+								borderColor: "var(--borderColor)",
+							},
+							"&.Mui-focused fieldset": {
+								borderColor: "var(--borderColor)",
+							},
+						},
+					}}
+				/>
+			</Box>
+
 			<TableComponent
 				columns={columns}
-				data={users}
+				data={filteredUsers} // Use filtered users for the table data
 				loading={loading}
 				renderActions={(row) => (
 					<Box sx={{ display: "flex", gap: "20px" }}>

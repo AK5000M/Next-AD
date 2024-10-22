@@ -1,4 +1,5 @@
 export interface UserModelType extends Document {
+	username: any;
 	data: any;
 	_id?: string;
 	id: string;
@@ -14,6 +15,7 @@ export interface UserModelType extends Document {
 	devices?: number;
 	active?: boolean;
 	status: boolean;
+	available_reset_password: boolean;
 	created_at?: Date;
 	visit_at?: Date;
 }

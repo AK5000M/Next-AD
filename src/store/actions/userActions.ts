@@ -5,6 +5,7 @@ import {
 	updateIP,
 	updateLicense,
 	updateExtraDeviceAmount,
+	setResetPasswordStatus,
 	deleteOneUser,
 } from "@/store/apis/user";
 
@@ -59,6 +60,15 @@ export const updateUserExtraDevice = async (userId: string, extra: number) => {
 		return data;
 	} catch (error) {
 		console.error("Allow user failed", error);
+	}
+};
+
+export const setResetPassword = async (userId: string, status: boolean) => {
+	try {
+		const data = await setResetPasswordStatus(userId, status);
+		return data;
+	} catch (error) {
+		console.error("Allow reset failed", error);
 	}
 };
 

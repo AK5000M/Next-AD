@@ -184,6 +184,41 @@ export const updateExtraDeviceAmount = async (
 	}
 };
 
+// Set Reset Password
+export const setResetPasswordStatus = async (
+	userId: string,
+	status: boolean
+) => {
+	try {
+		let token;
+		if (typeof window !== "undefined" && window.localStorage) {
+			// Check if running on the client side
+			token = localStorage.getItem("token");
+		}
+		if (!token) {
+			throw new Error("Token not found in local storage");
+		}
+		console.log(userId, status);
+		const response = await axios.put(
+			`${API_BASE_URL}/admin/user/allow-reset-password/`,
+			{
+				userId,
+				status,
+			},
+			{
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
+
+		return response.data;
+	} catch (error) {
+		console.log("fetchUserList error:", error);
+	}
+};
+
 // Delete User
 export const deleteOneUser = async (userId: string) => {
 	try {
