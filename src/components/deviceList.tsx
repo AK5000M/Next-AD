@@ -117,7 +117,7 @@ const DeviceList: React.FC = () => {
 					fontSize: "14px",
 				}}
 			>
-				Total dispositivos: {devices.length}
+				Total dispositivos: {devices?.length}
 			</Typography>
 			<TableComponent
 				columns={columns}
