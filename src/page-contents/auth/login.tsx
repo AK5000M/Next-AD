@@ -10,17 +10,15 @@ import Layout from "@/layout/layout";
 
 export const LoginContent: React.FC = () => {
 	const { t } = useTranslation();
-	const router = useRouter();
 	const dispatch = useAppDispatch();
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const role = "admin";
 
 	const onSubmitLogin = (event: React.FormEvent) => {
 		event.preventDefault();
 
-		dispatch(login(email, password, role));
+		dispatch(login(email, password));
 	};
 
 	return (

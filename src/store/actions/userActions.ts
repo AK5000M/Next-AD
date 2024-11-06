@@ -1,5 +1,6 @@
 import {
 	fetchUsersList,
+	fetchReSellersList,
 	getUserInfo,
 	updateUserStatus,
 	updateIP,
@@ -7,7 +8,10 @@ import {
 	updateExtraDeviceAmount,
 	setResetPasswordStatus,
 	deleteOneUser,
+	NewReSellerAdd,
+	setResetReSellerInformation,
 } from "@/store/apis/user";
+import { UserModelType } from "@/types";
 
 export const fetchUsers = async () => {
 	try {
@@ -15,6 +19,15 @@ export const fetchUsers = async () => {
 		return data;
 	} catch (error) {
 		console.error("User fetch failed", error);
+	}
+};
+
+export const fetchReSellers = async () => {
+	try {
+		const data = await fetchReSellersList();
+		return data;
+	} catch (error) {
+		console.error("ReSellers fetch failed", error);
 	}
 };
 
@@ -67,6 +80,24 @@ export const setResetPassword = async (userId: string, status: boolean) => {
 	try {
 		const data = await setResetPasswordStatus(userId, status);
 		return data;
+	} catch (error) {
+		console.error("Allow reset failed", error);
+	}
+};
+
+export const newReSellerAdd = async (user: any) => {
+	try {
+		const data = await NewReSellerAdd(user);
+		return data;
+	} catch (error) {
+		console.error("Add New ReSeller failed", error);
+	}
+};
+
+export const updateReSellerInfo = async (data: any) => {
+	try {
+		const res = await setResetReSellerInformation(data);
+		return res;
 	} catch (error) {
 		console.error("Allow reset failed", error);
 	}

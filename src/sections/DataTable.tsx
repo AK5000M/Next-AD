@@ -121,6 +121,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
 							</TableCell>
 						</TableRow>
 					) : (
+						data &&
 						data.map((row, rowIndex) => (
 							<TableRow key={rowIndex}>
 								<TableCell

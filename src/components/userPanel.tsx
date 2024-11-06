@@ -82,8 +82,6 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 	const [extraEditing, setExtraEditing] = useState(false);
 	const [checked, setChecked] = useState(user?.available_reset_password);
 
-	console.log({ user });
-
 	const [selectedLicense, setSelectedLicense] = useState("");
 
 	useEffect(() => {

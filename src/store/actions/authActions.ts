@@ -7,10 +7,9 @@ import { loginApi } from "@/store/apis/auth";
 import { SignInURL, DashboardURL } from "@/utils/routes";
 
 export const login =
-	(email: string, password: string, role: string) =>
-	async (dispatch: AppDispatch) => {
+	(email: string, password: string) => async (dispatch: AppDispatch) => {
 		try {
-			const data = await loginApi(email, password, role);
+			const data = await loginApi(email, password);
 
 			const user = data.data.user;
 			const token = data.data.token;

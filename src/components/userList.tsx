@@ -23,8 +23,16 @@ import TableComponent from "@/sections/DataTable";
 import { fetchUsers, deleteUser } from "@/store/actions/userActions";
 import { UserModelType } from "@/types/index";
 
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+
 const UserList: React.FC = () => {
 	const router = useRouter();
+
+	const admin: UserModelType | any = useSelector(
+		(state: RootState) => state.auth.user
+	);
+
 	const [users, setUsers] = useState<UserModelType[]>([]);
 	const [filteredUsers, setFilteredUsers] = useState<UserModelType[]>([]); // State for filtered users
 	const [loading, setLoading] = useState(true);
@@ -223,24 +231,27 @@ const UserList: React.FC = () => {
 							</IconButton>
 						</Tooltip>
 
-						<Tooltip title="Excluir Dispositivo">
-							<IconButton
-								onClick={() => handleOpenDialog(row._id)}
-								sx={{
-									cursor: "pointer",
-									backgroundColor: "var(--redLightColor)",
-									borderRadius: "5px",
-									fontSize: "24px",
-									color: "var(--secondaryTextColor)",
-									"&:hover": {
-										color: "var(--mainTextColor)",
+						{admin && admin.role == "admin" && (
+							<Tooltip title="Excluir Dispositivo">
+								<IconButton
+									onClick={() => handleOpenDialog(row._id)}
+									sx={{
+										cursor: "pointer",
 										backgroundColor: "var(--redLightColor)",
-									},
-								}}
-							>
-								<DeleteForeverOutlinedIcon />
-							</IconButton>
-						</Tooltip>
+										borderRadius: "5px",
+										fontSize: "24px",
+										color: "var(--secondaryTextColor)",
+										"&:hover": {
+											color: "var(--mainTextColor)",
+											backgroundColor:
+												"var(--redLightColor)",
+										},
+									}}
+								>
+									<DeleteForeverOutlinedIcon />
+								</IconButton>
+							</Tooltip>
+						)}
 					</Box>
 				)}
 			/>

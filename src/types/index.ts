@@ -9,7 +9,7 @@ export interface UserModelType extends Document {
 	password?: string;
 	phone?: string;
 	avatar_url?: string;
-	role?: "user" | "admin";
+	role?: "user" | "admin" | "reseller";
 	token?: string;
 	subscribe?: string;
 	devices?: number;

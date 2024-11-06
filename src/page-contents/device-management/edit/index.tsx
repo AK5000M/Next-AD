@@ -38,7 +38,7 @@ const DeviceManageContent: React.FC = () => {
 			});
 		}
 	};
-	console.log({ device });
+
 	return (
 		<SecondaryLayout>
 			<Container maxWidth="xl">
