@@ -24,7 +24,10 @@ import {
 	deleteUser,
 	newReSellerAdd,
 } from "@/store/actions/userActions";
+
 import { UserModelType } from "@/types/index";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 const ResellerList: React.FC = () => {
 	const router = useRouter();
@@ -44,6 +47,11 @@ const ResellerList: React.FC = () => {
 	});
 
 	const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+	// Access user information from Redux store
+	const manager: UserModelType | any = useSelector(
+		(state: RootState) => state.auth.user
+	);
 
 	useEffect(() => {
 		fetchReSellerList();
@@ -154,7 +162,13 @@ const ResellerList: React.FC = () => {
 		if (!validateForm()) return;
 		try {
 			setLoading(true);
-			const response = await newReSellerAdd(formData);
+			const sellerData = {
+				...formData,
+				manager_Id: manager?._id,
+				manager: manager?.username,
+			};
+			console.log({ sellerData });
+			const response = await newReSellerAdd(sellerData);
 			if (response.success) {
 				setUsers(response.data);
 				setFilteredUsers(response.data);

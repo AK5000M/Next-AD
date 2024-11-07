@@ -68,10 +68,9 @@ const TableComponent: React.FC<TableComponentProps> = ({
 		setPage(0);
 	};
 
-	const paginatedData = data.slice(
-		page * rowsPerPage,
-		page * rowsPerPage + rowsPerPage
-	);
+	const paginatedData =
+		data &&
+		data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
 	return (
 		<React.Fragment>
@@ -142,6 +141,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
 								</TableCell>
 							</TableRow>
 						) : (
+							paginatedData &&
 							paginatedData.map((row, rowIndex) => (
 								<TableRow key={rowIndex}>
 									<TableCell
@@ -210,7 +210,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
 			<TablePagination
 				sx={{ color: "var(--background-end-rgb)" }}
 				component="div"
-				count={data.length}
+				count={data && data.length}
 				page={page}
 				onPageChange={handleChangePage}
 				rowsPerPage={rowsPerPage}

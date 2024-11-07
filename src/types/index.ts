@@ -18,6 +18,7 @@ export interface UserModelType extends Document {
 	available_reset_password: boolean;
 	manager_id?: string;
 	manager?: string;
+	manager_Role?: string;
 	created_at?: Date;
 	visit_at?: Date;
 }

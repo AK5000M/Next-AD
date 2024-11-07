@@ -264,6 +264,9 @@ export const NewReSellerAdd = async (user: any) => {
 				username: user?.username,
 				email: user?.email,
 				password: user?.password,
+				manager_Id: user?.manager_Id,
+				manager_Role: user?.manager_Role,
+				manager: user?.manager,
 			},
 			{
 				headers: {
