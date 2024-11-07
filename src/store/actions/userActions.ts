@@ -40,9 +40,13 @@ export const getUserInformation = async (id: string) => {
 	}
 };
 
-export const updateUser = async (userId: string, type: string) => {
+export const updateUser = async (
+	userId: string,
+	type: string,
+	manager: UserModelType
+) => {
 	try {
-		const data = await updateUserStatus(userId, type);
+		const data = await updateUserStatus(userId, type, manager);
 		return data;
 	} catch (error) {
 		console.error("Allow user failed", error);
@@ -58,27 +62,39 @@ export const updateUserIP = async (userId: string, ip: string) => {
 	}
 };
 
-export const updateUserLicense = async (userId: string, license: string) => {
+export const updateUserLicense = async (
+	userId: string,
+	license: string,
+	manager: UserModelType
+) => {
 	try {
-		const data = await updateLicense(userId, license);
+		const data = await updateLicense(userId, license, manager);
 		return data;
 	} catch (error) {
 		console.error("Allow user failed", error);
 	}
 };
 
-export const updateUserExtraDevice = async (userId: string, extra: number) => {
+export const updateUserExtraDevice = async (
+	userId: string,
+	extra: number,
+	manager: UserModelType
+) => {
 	try {
-		const data = await updateExtraDeviceAmount(userId, extra);
+		const data = await updateExtraDeviceAmount(userId, extra, manager);
 		return data;
 	} catch (error) {
 		console.error("Allow user failed", error);
 	}
 };
 
-export const setResetPassword = async (userId: string, status: boolean) => {
+export const setResetPassword = async (
+	userId: string,
+	status: boolean,
+	manager: UserModelType
+) => {
 	try {
-		const data = await setResetPasswordStatus(userId, status);
+		const data = await setResetPasswordStatus(userId, status, manager);
 		return data;
 	} catch (error) {
 		console.error("Allow reset failed", error);

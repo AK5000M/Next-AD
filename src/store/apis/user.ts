@@ -1,3 +1,4 @@
+import { UserModelType } from "@/types";
 import axios from "axios";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -82,7 +83,11 @@ export const getUserInfo = async (userId: string) => {
 };
 
 // Allow User Status
-export const updateUserStatus = async (userId: string, type: string) => {
+export const updateUserStatus = async (
+	userId: string,
+	type: string,
+	manager: UserModelType
+) => {
 	try {
 		let token;
 		if (typeof window !== "undefined" && window.localStorage) {
@@ -98,6 +103,9 @@ export const updateUserStatus = async (userId: string, type: string) => {
 			{
 				userId,
 				type,
+				manager_Id: manager?._id,
+				manager: manager?.username,
+				manager_Role: manager?.role,
 			},
 			{
 				headers: {
@@ -146,7 +154,11 @@ export const updateIP = async (userId: string, ip: string) => {
 };
 
 // Update User License
-export const updateLicense = async (userId: string, license: string) => {
+export const updateLicense = async (
+	userId: string,
+	license: string,
+	manager: UserModelType
+) => {
 	try {
 		let token;
 		if (typeof window !== "undefined" && window.localStorage) {
@@ -162,6 +174,9 @@ export const updateLicense = async (userId: string, license: string) => {
 			{
 				userId,
 				license,
+				manager_Id: manager?._id,
+				manager: manager?.username,
+				manager_Role: manager?.role,
 			},
 			{
 				headers: {
@@ -180,7 +195,8 @@ export const updateLicense = async (userId: string, license: string) => {
 // Update User Extra Device
 export const updateExtraDeviceAmount = async (
 	userId: string,
-	extra: number
+	extra: number,
+	manager: UserModelType
 ) => {
 	try {
 		let token;
@@ -196,6 +212,9 @@ export const updateExtraDeviceAmount = async (
 			{
 				userId,
 				extra,
+				manager_Id: manager?._id,
+				manager: manager?.username,
+				manager_Role: manager?.role,
 			},
 			{
 				headers: {
@@ -214,7 +233,8 @@ export const updateExtraDeviceAmount = async (
 // Set Reset Password
 export const setResetPasswordStatus = async (
 	userId: string,
-	status: boolean
+	status: boolean,
+	manager: UserModelType
 ) => {
 	try {
 		let token;
@@ -225,12 +245,15 @@ export const setResetPasswordStatus = async (
 		if (!token) {
 			throw new Error("Token not found in local storage");
 		}
-		console.log(userId, status);
+
 		const response = await axios.put(
 			`${API_BASE_URL}/admin/user/allow-reset-password/`,
 			{
 				userId,
 				status,
+				manager_Id: manager?._id,
+				manager: manager?.username,
+				manager_Role: manager?.role,
 			},
 			{
 				headers: {

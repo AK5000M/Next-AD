@@ -24,6 +24,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import CloseIcon from "@mui/icons-material/Close";
 
+import { UserModelType } from "@/types/index";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+
 import {
 	updateUser,
 	updateUserIP,
@@ -83,6 +87,10 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 	const [checked, setChecked] = useState(user?.available_reset_password);
 
 	const [selectedLicense, setSelectedLicense] = useState("");
+
+	const manager: UserModelType | any = useSelector(
+		(state: RootState) => state.auth.user
+	);
 
 	useEffect(() => {
 		setIp(user?.ip);
@@ -166,7 +174,11 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 	// Update User Status
 	const onUpdateUserStatus = async (userId: string, type: string) => {
 		try {
-			const response = await updateUser(userId as string, type as string);
+			const response = await updateUser(
+				userId as string,
+				type as string,
+				manager as UserModelType
+			);
 
 			if (response.success) {
 				toast.success(
@@ -213,7 +225,8 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 		try {
 			const response = await updateUserLicense(
 				userId as string,
-				selectedLicense as string
+				selectedLicense as string,
+				manager as UserModelType
 			);
 
 			if (response.success) {
@@ -278,7 +291,11 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 		try {
 			setExtraEditing(false);
 
-			const response = await updateUserExtraDevice(userId, extraDevice);
+			const response = await updateUserExtraDevice(
+				userId,
+				extraDevice,
+				manager as UserModelType
+			);
 
 			if (response.success) {
 				toast.success(
@@ -327,7 +344,11 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 			const userId = user?._id;
 			const status = event.target.checked;
 
-			const response = await setResetPassword(userId, status);
+			const response = await setResetPassword(
+				userId,
+				status,
+				manager as UserModelType
+			);
 
 			if (response.success) {
 				toast.success(
@@ -473,7 +494,7 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 						</Typography>
 					</Grid>
 
-					<Grid item xs={12} sm={8}>
+					{/* <Grid item xs={12} sm={8}>
 						<Box
 							sx={{
 								display: "flex",
@@ -560,7 +581,7 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, devices, loading }) => {
 								</Tooltip>
 							)}
 						</Box>
-					</Grid>
+					</Grid> */}
 
 					<Grid item xs={12} sm={4}>
 						<Typography

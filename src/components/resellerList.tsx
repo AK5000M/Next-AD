@@ -231,6 +231,7 @@ const ResellerList: React.FC = () => {
 		{ field: "username", label: "Nome completo" },
 		{ field: "email", label: "Email" },
 		{ field: "role", label: "Função" },
+		{ field: "manager_Role", label: "Manager" },
 		{ field: "created_at", label: "Data registro" },
 	];
 
