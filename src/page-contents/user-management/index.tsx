@@ -6,7 +6,7 @@ import UserList from "@/components/userList";
 const UserManagementContent: React.FC = () => {
 	return (
 		<SecondaryLayout>
-			<Container maxWidth="xl">
+			<Container className="page-container">
 				<Box sx={{ mt: 1 }}>
 					<Typography
 						variant="h4"

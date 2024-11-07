@@ -6,7 +6,7 @@ import ResellerList from "@/components/resellerList";
 const ReSellerManagementContent: React.FC = () => {
 	return (
 		<SecondaryLayout>
-			<Container maxWidth="xl">
+			<Container className="page-container">
 				<Box sx={{ mt: 1 }}>
 					<Typography
 						variant="h4"

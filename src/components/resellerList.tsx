@@ -267,8 +267,8 @@ const ResellerList: React.FC = () => {
 				<Button
 					variant="contained"
 					sx={{
-						backgroundColor: "var(--blueLightColor)",
-						border: "solid 1px var(--blueLightColor)",
+						backgroundColor: "var(--blueColor)",
+						border: "solid 1px var(--blueColor)",
 						color: "white",
 						"&:hover": {
 							backgroundColor: "var(--blueColor)",

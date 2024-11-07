@@ -29,7 +29,9 @@ const SecondaryLayout: React.FC<SecondaryLayoutProps> = ({ children }) => {
 						p: 3,
 					}}
 				>
-					<Container maxWidth="xl">{children}</Container>
+					<Container className="second-layout-container">
+						{children}
+					</Container>
 				</Box>
 			</Box>
 		</Box>
