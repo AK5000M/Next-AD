@@ -167,7 +167,7 @@ const ResellerList: React.FC = () => {
 				manager_Id: manager?._id,
 				manager: manager?.username,
 			};
-			console.log({ sellerData });
+
 			const response = await newReSellerAdd(sellerData);
 			if (response.success) {
 				setUsers(response.data);
