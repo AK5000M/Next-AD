@@ -9,6 +9,7 @@ import {
 	Paper,
 	CircularProgress,
 	TablePagination,
+	Box,
 } from "@mui/material";
 
 type Column = {
@@ -73,7 +74,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
 		data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
 	return (
-		<React.Fragment>
+		<Box sx={{ width: "100%" }}>
 			<TableContainer
 				component={Paper}
 				sx={{
@@ -124,7 +125,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
 							)}
 						</TableRow>
 					</TableHead>
-					<TableBody sx={{ height: "600px" }}>
+					<TableBody>
 						{loading ? (
 							<TableRow>
 								<TableCell
@@ -217,7 +218,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
 				onRowsPerPageChange={handleChangeRowsPerPage}
 				rowsPerPageOptions={[10, 20, 50]}
 			/>
-		</React.Fragment>
+		</Box>
 	);
 };
 

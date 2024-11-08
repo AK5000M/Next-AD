@@ -12,6 +12,7 @@ import {
 import { updateReSellerInfo } from "@/store/actions/userActions";
 import { ReSellerManagementURL } from "@/utils/routes";
 import { formatDate } from "@/utils/common";
+import TableComponent from "@/sections/DataTable";
 
 type UserPanelProps = {
 	user: any;
@@ -76,17 +77,19 @@ const ReSellerPanel: React.FC<UserPanelProps> = ({
 		}
 	};
 
+	const columns = [
+		{ field: "_id", label: "ID" },
+		{ field: "username", label: "Username" },
+		{ field: "email", label: "Email" },
+		{ field: "devices", label: "Devices" },
+		{ field: "license_at", label: "License At" },
+		{ field: "license_duration", label: "License Duration" },
+		{ field: "extraDevice", label: "Extra Device" },
+		{ field: "status", label: "Status" },
+	];
+
 	return (
-		<Box
-			sx={{
-				mt: 0,
-				backgroundColor: "var(--secondaryColor)",
-				border: "solid 1px var(--borderColor)",
-				p: "40px 20px",
-				borderRadius: "5px",
-				minHeight: "250px",
-			}}
-		>
+		<Box>
 			{loading ? (
 				<Box
 					sx={{
@@ -100,134 +103,34 @@ const ReSellerPanel: React.FC<UserPanelProps> = ({
 					<CircularProgress />
 				</Box>
 			) : (
-				<Grid
-					container
-					spacing={3}
+				<Box
 					sx={{
-						px: "40px",
-						flexDirection: { lg: "row", md: "column" },
+						display: "flex",
+						gap: "20px",
 					}}
 				>
-					<Grid item xs={12} sm={8}>
-						<Box>
-							{manageUsers &&
-								manageUsers.map(
-									(manageUser: any, index: any) => (
-										<Box
-											key={index}
-											sx={{
-												display: "flex",
-												flexWrap: "wrap",
-												gap: "5px",
-												mb: 2,
-											}}
-										>
-											<Typography
-												variant="subtitle1"
-												sx={{
-													color: "var(--iconColor)",
-													fontSize: "14px",
-												}}
-											>
-												{index + 1}:
-											</Typography>
-											<Typography
-												variant="subtitle1"
-												sx={{
-													color: "var(--mainTextColor)",
-													fontSize: "14px",
-												}}
-											>
-												{manageUser?._id}
-											</Typography>
-											<Typography
-												variant="subtitle1"
-												sx={{
-													color: "var(--mainTextColor)",
-													fontSize: "14px",
-												}}
-											>
-												{manageUser?.username}
-											</Typography>
-											<Typography
-												variant="subtitle1"
-												sx={{
-													fontSize: "16px",
-													color: "var(--mainTextColor)",
-												}}
-											>
-												{manageUser?.email}
-											</Typography>
-											<Typography
-												variant="subtitle1"
-												sx={{
-													fontSize: "16px",
-													color: "var(--mainTextColor)",
-												}}
-											>
-												{manageUser?.devices}
-											</Typography>
-											<Typography
-												variant="subtitle1"
-												sx={{
-													fontSize: "16px",
-													color: "var(--mainTextColor)",
-												}}
-											>
-												{manageUser?.license_at}
-											</Typography>
-											<Typography
-												variant="subtitle1"
-												sx={{
-													fontSize: "16px",
-													color: "var(--mainTextColor)",
-												}}
-											>
-												{manageUser?.license_duration}
-												days
-											</Typography>
-											<Typography
-												variant="subtitle1"
-												sx={{
-													fontSize: "16px",
-													color: "var(--mainTextColor)",
-												}}
-											>
-												{manageUser?.extraDevice}
-											</Typography>
-											<Typography
-												variant="subtitle1"
-												sx={{
-													px: "15px",
-													borderRadius: "20px",
-													fontSize: "16px",
-													color: "var(--mainTextColor)",
-													backgroundColor:
-														manageUser?.status ===
-														"allowed"
-															? "var(--greenLightColor)"
-															: manageUser?.status ===
-															  "blocked"
-															? "var(--redLightColor)"
-															: manageUser?.status ===
-															  "pending"
-															? "var(--pendingColor)"
-															: "var(--mainTextColor)",
-												}}
-											>
-												{manageUser?.status}
-											</Typography>
-										</Box>
-									)
-								)}
-						</Box>
-					</Grid>
-					<Grid item xs={12} sm={4}>
+					<TableComponent
+						columns={columns}
+						data={manageUsers}
+						loading={loading}
+					/>
+
+					<Box
+						sx={{
+							flex: "50%",
+							px: 2,
+							display: "flex",
+							flexDirection: "column",
+							justifyContent: "center",
+						}}
+					>
 						<Box
 							sx={{
 								display: "flex",
 								flexDirection: "column",
-								gap: "30px",
+								gap: "10px",
+								pb: 2,
+								borderBottom: "solid 1px var(--borderColor)",
 							}}
 						>
 							<Typography
@@ -316,133 +219,146 @@ const ReSellerPanel: React.FC<UserPanelProps> = ({
 								</span>
 							</Typography>
 						</Box>
+
 						<Box
 							sx={{
-								mt: 5,
 								display: "flex",
 								flexDirection: "column",
-								gap: "15px",
-								width: "100%",
+								justifyContent: "flex-end",
+								mt: 2,
 							}}
 						>
-							<Typography
-								variant="subtitle1"
+							<Box
 								sx={{
-									color: "var(--iconColor)",
-									fontSize: "20px",
+									mt: 4,
+									display: "flex",
+									flexDirection: "column",
+									gap: "15px",
+									width: "100%",
 								}}
 							>
-								Redefinir senha
-							</Typography>
+								<Typography
+									variant="subtitle1"
+									sx={{
+										color: "var(--iconColor)",
+										fontSize: "20px",
+									}}
+								>
+									Redefinir senha
+								</Typography>
+
+								<Box
+									sx={{
+										display: "flex",
+										flexDirection: "column",
+										gap: "20px",
+									}}
+								>
+									<TextField
+										label="Nova Senha"
+										type="text"
+										variant="outlined"
+										fullWidth
+										value={newPassword}
+										onChange={(e) => {
+											setNewPassword(e.target.value);
+											setPasswordError("");
+										}}
+										InputLabelProps={{
+											style: {
+												color: "var(--secondaryTextColor)",
+											},
+										}}
+										InputProps={{
+											sx: {
+												color: "var(--mainTextColor)",
+											},
+										}}
+									/>
+									<TextField
+										label="Confirme sua senha"
+										type="text"
+										variant="outlined"
+										fullWidth
+										value={confirmPassword}
+										onChange={(e) => {
+											setConfirmPassword(e.target.value);
+											setPasswordError("");
+										}}
+										InputLabelProps={{
+											style: {
+												color: "var(--secondaryTextColor)",
+											},
+										}}
+										InputProps={{
+											sx: {
+												color: "var(--mainTextColor)",
+											},
+										}}
+									/>
+								</Box>
+
+								{passwordError && (
+									<Typography color="error" variant="body2">
+										{passwordError}
+									</Typography>
+								)}
+							</Box>
 
 							<Box
 								sx={{
+									mt: 5,
 									display: "flex",
 									flexDirection: "column",
-									gap: "40px",
+									gap: 2,
 								}}
 							>
-								<TextField
-									label="Nova Senha"
-									type="text"
-									variant="outlined"
-									fullWidth
-									value={newPassword}
-									onChange={(e) => {
-										setNewPassword(e.target.value);
-										setPasswordError("");
-									}}
-									InputLabelProps={{
-										style: {
-											color: "var(--secondaryTextColor)",
+								<Button
+									variant="contained"
+									sx={{
+										backgroundColor: "var(--greenColor)",
+										color: "white",
+										px: 3,
+										"&:hover": {
+											backgroundColor:
+												"rgb(17, 173, 100)",
+										},
+										"&.Mui-disabled": {
+											color: "rgb(251 251 251 / 61%)",
+											boxShadow: "none",
+											backgroundColor:
+												"rgb(135 131 131 / 12%)",
 										},
 									}}
-									InputProps={{
-										sx: {
-											color: "var(--mainTextColor)",
+									onClick={() =>
+										onUpdateReSellerPassword(user?._id)
+									}
+								>
+									Salvar
+								</Button>
+
+								<Button
+									variant="contained"
+									sx={{
+										backgroundColor: "var(--primaryColor)",
+										border: "solid 1px var(--borderColor)",
+										color: "white",
+										px: 3,
+										"&:hover": {
+											backgroundColor:
+												"rgb(8 16 40 / 58%)",
 										},
 									}}
-								/>
-								<TextField
-									label="Confirme sua senha"
-									type="text"
-									variant="outlined"
-									fullWidth
-									value={confirmPassword}
-									onChange={(e) => {
-										setConfirmPassword(e.target.value);
-										setPasswordError("");
-									}}
-									InputLabelProps={{
-										style: {
-											color: "var(--secondaryTextColor)",
-										},
-									}}
-									InputProps={{
-										sx: {
-											color: "var(--mainTextColor)",
-										},
-									}}
-								/>
+									onClick={() =>
+										router.push(ReSellerManagementURL)
+									}
+								>
+									Retornar
+								</Button>
 							</Box>
-
-							{passwordError && (
-								<Typography color="error" variant="body2">
-									{passwordError}
-								</Typography>
-							)}
 						</Box>
-					</Grid>
-
-					<Grid
-						item
-						xs={12}
-						sx={{
-							display: "flex",
-							flexDirection: { lg: "row", md: "column" },
-							justifyContent: "flex-end",
-							mt: 15,
-							gap: { lg: "0px", md: "10px" },
-						}}
-					>
-						<Button
-							variant="contained"
-							sx={{
-								backgroundColor: "var(--primaryColor)",
-								border: "solid 1px var(--borderColor)",
-								color: "white",
-								px: 3,
-								mr: 2,
-								"&:hover": {
-									backgroundColor: "rgb(8 16 40 / 58%)",
-								},
-							}}
-							onClick={() => router.push(ReSellerManagementURL)}
-						>
-							Retornar
-						</Button>
-						<Button
-							variant="contained"
-							sx={{
-								backgroundColor: "var(--greenColor)",
-								color: "white",
-								px: 3,
-								mr: 2,
-								"&:hover": {
-									backgroundColor: "rgb(17, 173, 100)",
-								},
-								"&.Mui-disabled": {
-									color: "rgb(251 251 251 / 61%)",
-									boxShadow: "none",
-									backgroundColor: "rgb(135 131 131 / 12%)",
-								},
-							}}
-							onClick={() => onUpdateReSellerPassword(user?._id)}
-						>
-							Salvar
-						</Button>
-					</Grid>
-				</Grid>
+					</Box>
+				</Box>
 			)}
 			<ToastContainer />
 		</Box>

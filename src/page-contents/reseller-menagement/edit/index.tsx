@@ -55,10 +55,10 @@ const ReSellerEditContent: React.FC = () => {
 			setLoading(false);
 		}
 	};
-	console.log({ manageUsers });
+
 	return (
 		<SecondaryLayout>
-			<Container maxWidth="xl">
+			<Container className="page-container">
 				<Box sx={{ mt: 1 }}>
 					<Typography
 						variant="h4"
@@ -68,13 +68,12 @@ const ReSellerEditContent: React.FC = () => {
 						Editar Revendedores
 					</Typography>
 				</Box>
-				<Grid>
-					<ReSellerPanel
-						user={userInfo}
-						loading={loading}
-						manageUsers={manageUsers}
-					/>
-				</Grid>
+
+				<ReSellerPanel
+					user={userInfo}
+					loading={loading}
+					manageUsers={manageUsers}
+				/>
 				<ToastContainer />
 			</Container>
 		</SecondaryLayout>
