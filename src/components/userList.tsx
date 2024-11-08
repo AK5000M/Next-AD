@@ -146,8 +146,8 @@ const UserList: React.FC = () => {
 		{ field: "devices", label: "Dispositivos" },
 		{ field: "extraDevice", label: "Contagem Dispositivos Extras" },
 		{ field: "license_duration", label: "Duração da licença(Dias)" },
-		{ field: "manager_Role", label: "Manager" },
-		{ field: "manager", label: "Manager Name" },
+		{ field: "manager_Role", label: "Gerente" },
+		{ field: "manager", label: "Nome gerente" },
 		{ field: "created_at", label: "Data registro" },
 		{ field: "status", label: "Estado" },
 	];

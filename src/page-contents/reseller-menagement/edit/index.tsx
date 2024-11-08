@@ -15,6 +15,7 @@ const ReSellerEditContent: React.FC = () => {
 	const [loading, setLoading] = useState(false);
 	const [devices, setDevices] = useState([]);
 	const [userInfo, setUserInfo] = useState({});
+	const [manageUsers, setManageUsers] = useState([]);
 
 	useEffect(() => {
 		const userId = router?.query?.id;
@@ -31,6 +32,7 @@ const ReSellerEditContent: React.FC = () => {
 			if (response?.success) {
 				setUserInfo(response?.data.userInfo);
 				setDevices(response?.data.devices);
+				setManageUsers(response?.data.manageUsers);
 				setLoading(false);
 			} else {
 				toast.error("Falha ao obter o usuário", {
@@ -53,7 +55,7 @@ const ReSellerEditContent: React.FC = () => {
 			setLoading(false);
 		}
 	};
-
+	console.log({ manageUsers });
 	return (
 		<SecondaryLayout>
 			<Container maxWidth="xl">
@@ -67,7 +69,11 @@ const ReSellerEditContent: React.FC = () => {
 					</Typography>
 				</Box>
 				<Grid>
-					<ReSellerPanel user={userInfo} loading={loading} />
+					<ReSellerPanel
+						user={userInfo}
+						loading={loading}
+						manageUsers={manageUsers}
+					/>
 				</Grid>
 				<ToastContainer />
 			</Container>

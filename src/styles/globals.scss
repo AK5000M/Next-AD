@@ -74,6 +74,14 @@ button {
 	padding: 0px !important;
 }
 
+.table-tr {
+	height: 25px !important;
+}
+
+.table-tr td {
+	height: 25px !important;
+}
+
 @layer utilities {
 	.text-balance {
 		text-wrap: balance;

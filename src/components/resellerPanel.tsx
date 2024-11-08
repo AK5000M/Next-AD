@@ -16,9 +16,14 @@ import { formatDate } from "@/utils/common";
 type UserPanelProps = {
 	user: any;
 	loading: boolean;
+	manageUsers: any;
 };
 
-const ReSellerPanel: React.FC<UserPanelProps> = ({ user, loading }) => {
+const ReSellerPanel: React.FC<UserPanelProps> = ({
+	user,
+	loading,
+	manageUsers,
+}) => {
 	const router = useRouter();
 	const [newPassword, setNewPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
@@ -103,7 +108,121 @@ const ReSellerPanel: React.FC<UserPanelProps> = ({ user, loading }) => {
 						flexDirection: { lg: "row", md: "column" },
 					}}
 				>
-					<Grid item xs={12} sm={6}>
+					<Grid item xs={12} sm={8}>
+						<Box>
+							{manageUsers &&
+								manageUsers.map(
+									(manageUser: any, index: any) => (
+										<Box
+											key={index}
+											sx={{
+												display: "flex",
+												flexWrap: "wrap",
+												gap: "5px",
+												mb: 2,
+											}}
+										>
+											<Typography
+												variant="subtitle1"
+												sx={{
+													color: "var(--iconColor)",
+													fontSize: "14px",
+												}}
+											>
+												{index + 1}:
+											</Typography>
+											<Typography
+												variant="subtitle1"
+												sx={{
+													color: "var(--mainTextColor)",
+													fontSize: "14px",
+												}}
+											>
+												{manageUser?._id}
+											</Typography>
+											<Typography
+												variant="subtitle1"
+												sx={{
+													color: "var(--mainTextColor)",
+													fontSize: "14px",
+												}}
+											>
+												{manageUser?.username}
+											</Typography>
+											<Typography
+												variant="subtitle1"
+												sx={{
+													fontSize: "16px",
+													color: "var(--mainTextColor)",
+												}}
+											>
+												{manageUser?.email}
+											</Typography>
+											<Typography
+												variant="subtitle1"
+												sx={{
+													fontSize: "16px",
+													color: "var(--mainTextColor)",
+												}}
+											>
+												{manageUser?.devices}
+											</Typography>
+											<Typography
+												variant="subtitle1"
+												sx={{
+													fontSize: "16px",
+													color: "var(--mainTextColor)",
+												}}
+											>
+												{manageUser?.license_at}
+											</Typography>
+											<Typography
+												variant="subtitle1"
+												sx={{
+													fontSize: "16px",
+													color: "var(--mainTextColor)",
+												}}
+											>
+												{manageUser?.license_duration}
+												days
+											</Typography>
+											<Typography
+												variant="subtitle1"
+												sx={{
+													fontSize: "16px",
+													color: "var(--mainTextColor)",
+												}}
+											>
+												{manageUser?.extraDevice}
+											</Typography>
+											<Typography
+												variant="subtitle1"
+												sx={{
+													px: "15px",
+													borderRadius: "20px",
+													fontSize: "16px",
+													color: "var(--mainTextColor)",
+													backgroundColor:
+														manageUser?.status ===
+														"allowed"
+															? "var(--greenLightColor)"
+															: manageUser?.status ===
+															  "blocked"
+															? "var(--redLightColor)"
+															: manageUser?.status ===
+															  "pending"
+															? "var(--pendingColor)"
+															: "var(--mainTextColor)",
+												}}
+											>
+												{manageUser?.status}
+											</Typography>
+										</Box>
+									)
+								)}
+						</Box>
+					</Grid>
+					<Grid item xs={12} sm={4}>
 						<Box
 							sx={{
 								display: "flex",
@@ -197,14 +316,13 @@ const ReSellerPanel: React.FC<UserPanelProps> = ({ user, loading }) => {
 								</span>
 							</Typography>
 						</Box>
-					</Grid>
-					<Grid item xs={12} sm={6}>
 						<Box
 							sx={{
+								mt: 5,
 								display: "flex",
 								flexDirection: "column",
 								gap: "15px",
-								width: "70%",
+								width: "100%",
 							}}
 						>
 							<Typography

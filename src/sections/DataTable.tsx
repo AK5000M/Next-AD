@@ -143,7 +143,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
 						) : (
 							paginatedData &&
 							paginatedData.map((row, rowIndex) => (
-								<TableRow key={rowIndex}>
+								<TableRow key={rowIndex} className="table-tr">
 									<TableCell
 										sx={{
 											color: "var(--mainTextColor)",
