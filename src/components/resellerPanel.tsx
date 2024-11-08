@@ -79,12 +79,12 @@ const ReSellerPanel: React.FC<UserPanelProps> = ({
 
 	const columns = [
 		{ field: "_id", label: "ID" },
-		{ field: "username", label: "Username" },
+		{ field: "username", label: "Nome completo" },
 		{ field: "email", label: "Email" },
-		{ field: "devices", label: "Devices" },
-		{ field: "license_at", label: "License At" },
-		{ field: "license_duration", label: "License Duration" },
-		{ field: "extraDevice", label: "Extra Device" },
+		{ field: "devices", label: "Dispositivos" },
+		{ field: "license_at", label: "Data licença" },
+		{ field: "license_duration", label: "Duração licença" },
+		{ field: "extraDevice", label: "Dispositivos extras" },
 		{ field: "status", label: "Status" },
 	];
 
